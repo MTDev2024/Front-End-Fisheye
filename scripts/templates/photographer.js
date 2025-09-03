@@ -3,7 +3,7 @@
 function photographerTemplate(data) {
   // Décomposition (destructuring) de l'objet `data` :
   // on extrait directement `name` et `portrait` depuis l'objet passé en paramètre.
-  const { name, portrait, city, country, tagline, price } = data;
+  const {id, name, portrait, city, country, tagline, price } = data;
 
   // Construit le chemin de l'image à partir du nom de fichier `portrait`.
   // Ce chemin est relatif à la page HTML (index.html) qui charge ce script.
@@ -23,36 +23,33 @@ function photographerTemplate(data) {
       `Portrait de ${name}, photographe à ${city}, ${country}`
     );
     img.classList.add("photographer-portrait");
-    // img.style.objectPosition = data.objectPosition || "center"; 
+    // img.style.objectPosition = data.objectPosition || "center";
     // "objectPosition": "center 20%" -> dans le json
-
-
-
 
     // Création d'un <h2> pour afficher le nom
     const h2 = document.createElement("h2");
     h2.textContent = name; // on met le nom à l'intérieur du <h2>
     h2.classList.add("photographer-name");
 
-    // Création d'un <h3> pour afficher "Ville, Pays"
-    const h3 = document.createElement("h3");
-    h3.textContent = `${city}, ${country}`; // interpolation pour concaténer city et country
-    h3.classList.add("photographer-location");
+    // Création d'une <p> pour afficher "Ville, Pays"
+    const location = document.createElement("p");
+    location.textContent = `${city}, ${country}`; // interpolation pour concaténer city et country
+    location.classList.add("photographer-location");
 
-    const p = document.createElement("p");
-    p.textContent = tagline;
-    p.classList.add("photographer-tagline");
+    const taglineElt = document.createElement("p");
+    taglineElt.textContent = tagline;
+    taglineElt.classList.add("photographer-tagline");
 
-    const span = document.createElement("span");
-    span.textContent = `${price} €/jour`;
-    span.classList.add("photographer-price");
+    const priceElt = document.createElement("p");
+    priceElt.textContent = `${price} €/jour`;
+    priceElt.classList.add("photographer-price");
 
     // On attache les éléments enfants à l'<article>
     article.appendChild(img);
     article.appendChild(h2);
-    article.appendChild(h3);
-    article.appendChild(p);
-    article.appendChild(span);
+    article.appendChild(location);
+    article.appendChild(taglineElt);
+    article.appendChild(priceElt);
 
     // On retourne l'élément <article> complet, prêt à être inséré dans le DOM
     return article;

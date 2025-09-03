@@ -1,5 +1,17 @@
 @import url("photographer.css");
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 body {
   font-family: "DM Sans", sans-serif;
   margin: 0 auto;
@@ -43,9 +55,9 @@ a:focus {
 .photographer-portrait {
   width: 200px;
   height: 200px;
-  object-fit: cover;        
-  object-position: center;  
-  border-radius: 50%;       
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
 }
 
 h1 {
