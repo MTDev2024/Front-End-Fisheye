@@ -1,5 +1,9 @@
 @import url("photographer.css");
 
+/* * {
+  outline: 1px solid red;
+} */
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -18,7 +22,7 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  border: solid 2px blue;
+  /* border: solid 2px blue; */
 }
 
 body {
@@ -26,7 +30,7 @@ body {
   margin: 0 auto;
   max-width: 1440px;
   max-height: 1024px;
-  border: solid 2px yellow;
+  /* border: solid 2px yellow; */
 }
 
 header {
@@ -47,7 +51,7 @@ header {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 70px;
   margin-top: 100px;
-  border: solid 2px red;
+  /* border: solid 2px red; */
 }
 
 .photographer-card {
@@ -63,14 +67,13 @@ a:focus {
   outline-offset: 2px;
 }
 
-.photograph-portrait,
 .photographer-portrait {
   width: 200px;
   height: 200px;
   object-fit: cover;
   object-position: center;
   border-radius: 50%;
-  border: solid 2px green;
+  /* border: solid 2px green; */
 }
 
 h1 {
@@ -82,12 +85,6 @@ h1 {
   color: #901c1c;
   font-weight: 400;
   font-size: 36px;
-}
-
-.photograph-name {
-  color: #901c1c;
-  font-weight: 400;
-  font-size: 64px;
 }
 
 .photographer-location {
@@ -106,12 +103,6 @@ h1 {
   color: #000000;
   font-weight: 400;
   font-size: 10px;
-}
-
-.photograph-tagline {
-  color: #000000;
-  font-weight: 400;
-  font-size: 18px;
 }
 
 .photographer-price {

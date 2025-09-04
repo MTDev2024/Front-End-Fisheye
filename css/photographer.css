@@ -11,6 +11,11 @@
 .photograph-hero {
   display: flex;
   flex-direction: row;
+  width: 1240px;
+  height: 100%;
+  justify-content: space-around;
+  align-items: center;
+  /* border: solid 2px violet; */
 }
 
 .photograph-info {
@@ -19,9 +24,32 @@
   line-height: 2px;
 }
 
-/* Bouton d’ouverture / envoi du formulaire */
+.photograph-portrait {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  /* border: solid 2px green; */
+}
+
+.photograph-name {
+  color: #901c1c;
+  font-weight: 400;
+  font-size: 64px;
+  /* border: solid 2px red; */
+}
+
+.photograph-tagline {
+  color: #000000;
+  font-weight: 400;
+  font-size: 18px;
+  /* border: solid 2px brown; */
+}
+
+
 .contact_button {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color: white;
   padding: 11px;
@@ -31,6 +59,7 @@
   background-color: #901c1c;
   border-radius: 5px;
   cursor: pointer;
+  /* border: solid 2px darkblue; */
 }
 
 .modal {
