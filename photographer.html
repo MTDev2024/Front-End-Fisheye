@@ -1,84 +1,87 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <link href="css/style.css" rel="stylesheet" type="text/css" >
-    <meta charset="utf-8">
-    <meta name="description" content="Découvrez nos photographes professionnels sur FishEye. Portraits, événements, paysages et plus.">
-    <link rel="icon" type="image/png" href="assets/favicon.png">
-    <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
-    <title>Fisheye - Photographe </title>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/photographer.css" />
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="Découvrez nos photographes professionnels sur FishEye. Portraits, événements, paysages et plus."
+    />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <title>Fisheye - Photographe</title>
   </head>
   <body>
-      <header>
+    <header>
       <a href="index.html">
-        <img src="assets/images/logo.png" class="logo" alt="">
-         <span class="sr-only">Retour à l’accueil</span>
-        </a>
+        <img src="assets/images/logo.png" class="logo" alt="" />
+        <span class="sr-only">Retour à l’accueil</span>
+      </a>
     </header>
     <main id="main">
       <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+        <button class="contact_button" onclick="displayModal()">
+          Contactez-moi
+        </button>
       </div>
     </main>
-   <div id="contact_modal">
-  <div class="modal">
-    <header>
-      <h2 id="contact-title">Contactez-moi</h2>
-      <img src="assets/icons/close.svg" alt="Fermer le formulaire de contact" onclick="closeModal()">
-    </header>
+    <div id="contact_modal">
+      <div class="modal">
+        <header>
+          <h2 id="contact-title">Contactez-moi</h2>
+          <img
+            src="assets/icons/close.svg"
+            alt="Fermer le formulaire de contact"
+            onclick="closeModal()"
+          />
+        </header>
 
-    <form aria-labelledby="contact-title" novalidate>
-      <!-- Prénom -->
-      <div>
-        <label for="firstname">Prénom</label>
-        <input
-          type="text"
-          id="firstname"
-          name="firstname"
-          minlength="2"
-          required
-        >
+        <form aria-labelledby="contact-title" novalidate>
+          <!-- Prénom -->
+          <div>
+            <label for="firstname">Prénom</label>
+            <input
+              type="text"
+              id="firstname"
+              name="firstname"
+              minlength="2"
+              required
+            />
+          </div>
+
+          <!-- Nom -->
+          <div>
+            <label for="lastname">Nom</label>
+            <input
+              type="text"
+              id="lastname"
+              name="lastname"
+              minlength="2"
+              required
+            />
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+
+          <!-- Message -->
+          <div>
+            <label for="message">Votre message</label>
+            <textarea id="message" name="message" rows="6" required></textarea>
+          </div>
+
+          <!-- Bouton -->
+          <button type="submit" class="contact_button">Envoyer</button>
+        </form>
       </div>
-
-      <!-- Nom -->
-      <div>
-        <label for="lastname">Nom</label>
-        <input
-          type="text"
-          id="lastname"
-          name="lastname"
-          minlength="2"
-          required
-        >
-      </div>
-
-      <!-- Email -->
-      <div>
-        <label for="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-        >
-      </div>
-
-      <!-- Message -->
-      <div>
-        <label for="message">Votre message</label>
-        <textarea
-          id="message"
-          name="message"
-          rows="6"
-          required
-        ></textarea>
-      </div>
-
-      <!-- Bouton -->
-      <button type="submit" class="contact_button">Envoyer</button>
-    </form>
-  </div>
-</div>
+    </div>
 
     <script src="/scripts/pages/photographer.js"></script>
     <script src="/scripts/utils/contactForm.js"></script>
