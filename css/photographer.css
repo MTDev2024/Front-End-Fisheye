@@ -2,10 +2,16 @@
   display: none;
 }
 
+#logo-2 {
+  width: 200px;
+  height: 50px;
+}
+
 .photograph-header {
   background-color: #fafafa;
   height: 300px;
-  margin: 0 100px;
+  display: flex;
+  justify-content: center;
 }
 
 .photograph-hero {
@@ -18,10 +24,15 @@
   /* border: solid 2px violet; */
 }
 
+.photograph-info h1,
+.photograph-info p {
+  margin: 0; /* suppression des marges par défaut */
+}
+
 .photograph-info {
   display: flex;
   flex-direction: column;
-  line-height: 2px;
+  
 }
 
 .photograph-portrait {
@@ -38,6 +49,13 @@
   font-weight: 400;
   font-size: 64px;
   /* border: solid 2px red; */
+}
+
+.photograph-location {
+  color: #901c1c;
+  font-weight: 400;
+  font-size: 24px;
+  padding-bottom: 8px;
 }
 
 .photograph-tagline {
