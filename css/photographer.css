@@ -1,5 +1,27 @@
 #contact_modal {
+  position: fixed; /* occupe tout l’écran */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px); /* compatibilité Safari */
   display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  border: solid 2px violet;
+}
+
+/* Visible quand on ajoute la classe .show */
+#contact_modal.show {
+  display: flex;
+}
+
+.modal-close {
+  background-color: transparent;
+  border: none;
 }
 
 #logo-2 {
@@ -32,7 +54,6 @@
 .photograph-info {
   display: flex;
   flex-direction: column;
-  
 }
 
 .photograph-portrait {
@@ -65,7 +86,6 @@
   /* border: solid 2px brown; */
 }
 
-
 .contact_button {
   font-size: 18px;
   font-weight: bold;
@@ -90,6 +110,8 @@
   justify-content: space-between;
   padding: 35px;
   margin: auto;
+  z-index: 1001; /* au-dessus de l’overlay */
+  border: solid 2px yellow;
 }
 
 .modal header {
@@ -111,7 +133,7 @@ form {
   display: flex;
   width: 100%;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
 }
 
 form label {

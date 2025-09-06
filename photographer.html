@@ -24,20 +24,26 @@
     </header>
     <main id="main">
       <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">
-          Contactez-moi
-        </button>
+        <button class="contact_button modal-btn">Contactez-moi</button>
       </div>
     </main>
-    <div id="contact_modal">
-      <div class="modal">
+
+    <!-- MODALE / OVERLAY -->
+    <div
+      id="contact_modal"
+      aria-hidden="true"
+      role="dialog"
+      aria-labelledby="contact-title"
+    >
+      <div class="modal" role="document">
         <header>
           <h2 id="contact-title">Contactez-moi</h2>
-          <img
-            src="assets/icons/close.svg"
-            alt="Fermer le formulaire de contact"
-            onclick="closeModal()"
-          />
+          <button
+            class="modal-close"
+            aria-label="Fermer le formulaire de contact"
+          >
+            <img src="assets/icons/close.svg" alt="" />
+          </button>
         </header>
 
         <form aria-labelledby="contact-title" novalidate>
@@ -78,7 +84,9 @@
           </div>
 
           <!-- Bouton -->
-          <button type="submit" class="contact_button">Envoyer</button>
+          <button type="submit" class="contact_button" id="contact_form_submit">
+            Envoyer
+          </button>
         </form>
       </div>
     </div>

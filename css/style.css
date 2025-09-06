@@ -78,6 +78,11 @@ a:focus {
   /* border: solid 2px green; */
 }
 
+.photographer-info,
+.photographer-info p {
+  margin: 0; /* suppression des marges par défaut */
+}
+
 h1 {
   color: #901c1c;
   margin-right: 100px;
@@ -94,7 +99,6 @@ h1 {
   font-weight: 400;
   font-size: 13px;
 }
-
 
 .photographer-tagline {
   color: #000000;
