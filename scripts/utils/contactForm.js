@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("contact_modal");
+   const nameSpan = document.getElementById("photographer-name");
   const openBtns = document.querySelectorAll(".modal-btn");
   const closeBtn = modal.querySelector(".modal-close");
 

@@ -72,6 +72,13 @@
   /* border: solid 2px red; */
 }
 
+#photographer-name {
+  margin: 0;
+  text-align: start;
+  font-weight: 400;
+  font-size: 64px;
+}
+
 .photograph-location {
   color: #901c1c;
   font-weight: 400;
@@ -97,7 +104,10 @@
   background-color: #901c1c;
   border-radius: 5px;
   cursor: pointer;
-  /* border: solid 2px darkblue; */
+}
+
+#contact_form_submit {
+  align-self: flex-start;
 }
 
 .modal {
@@ -110,13 +120,13 @@
   justify-content: space-between;
   padding: 35px;
   margin: auto;
-  z-index: 1001; /* au-dessus de l’overlay */
-  border: solid 2px yellow;
+  z-index: 1001; 
 }
 
 .modal header {
   justify-content: space-between;
   width: 100%;
+  padding-top: 20px;
 }
 
 .modal header img {
@@ -131,24 +141,29 @@
 
 form {
   display: flex;
-  width: 100%;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
+  width: 100%;
+  padding-top: 50px;
 }
 
 form label {
   color: #312e2e;
   font-size: 36px;
+  text-align: left; 
+  margin-bottom: 8px;
+  width: 100%;   
 }
 
-/* Groupes de champs */
 form div {
   display: flex;
   flex-direction: column;
   width: 100%;
-  align-items: self-start;
+  align-items: center; /* labels alignés à gauche */
   margin-bottom: 26px;
 }
+
+
 
 /* Champs du formulaire */
 form input {
@@ -158,6 +173,7 @@ form input {
   border-radius: 5px;
   padding: 0 10px;
   font-size: 18px;
+  align-items: center;
 }
 
 form textarea {
