@@ -120,7 +120,7 @@
   justify-content: space-between;
   padding: 35px;
   margin: auto;
-  z-index: 1001; 
+  z-index: 1001;
 }
 
 .modal header {
@@ -150,9 +150,9 @@ form {
 form label {
   color: #312e2e;
   font-size: 36px;
-  text-align: left; 
+  text-align: left;
   margin-bottom: 8px;
-  width: 100%;   
+  width: 100%;
 }
 
 form div {
@@ -162,8 +162,6 @@ form div {
   align-items: center; /* labels alignés à gauche */
   margin-bottom: 26px;
 }
-
-
 
 /* Champs du formulaire */
 form input {
@@ -182,5 +180,28 @@ form textarea {
   border-radius: 5px;
   padding: 0 10px;
   font-size: 18px;
-  resize: none; /* pas de redimensionnement */
+  resize: none;
+}
+
+.form-error {
+  color: #e54858;
+  font-size: 1rem;
+  padding-top: 0.5rem;
+  transition: opacity 0.3s ease;
+  margin: 0;
+}
+
+.form-success {
+  color: #205d12;
+  font-size: 1rem;
+  padding-top: 0.5rem;
+  transition: opacity 0.3s ease;
+  margin-top: 0.6rem;
+  text-align: center;
+}
+
+.form-success:empty,
+.form-error:empty {
+  display: none;
+  opacity: 0;
 }

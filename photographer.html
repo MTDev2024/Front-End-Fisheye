@@ -37,9 +37,10 @@
     >
       <div class="modal" role="document">
         <header>
-           <h2 id="contact-title">Contactez-moi
+          <h2 id="contact-title">
+            Contactez-moi
             <p id="photographer-name"></p>
-           </h2>
+          </h2>
           <button
             class="modal-close"
             aria-label="Fermer le formulaire de contact"
@@ -48,7 +49,7 @@
           </button>
         </header>
 
-        <form aria-labelledby="contact-title" novalidate>
+        <form id="form" aria-labelledby="contact-title" novalidate>
           <!-- Prénom -->
           <div>
             <label for="firstname">Prénom</label>
@@ -59,6 +60,11 @@
               minlength="2"
               required
             />
+            <div
+              id="firstname-error"
+              class="form-error"
+              aria-live="polite"
+            ></div>
           </div>
 
           <!-- Nom -->
@@ -71,18 +77,25 @@
               minlength="2"
               required
             />
+            <div
+              id="lastname-error"
+              class="form-error"
+              aria-live="polite"
+            ></div>
           </div>
 
           <!-- Email -->
           <div>
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required />
+            <div id="email-error" class="form-error" aria-live="polite"></div>
           </div>
 
           <!-- Message -->
           <div>
             <label for="message">Votre message</label>
             <textarea id="message" name="message" rows="6" required></textarea>
+            <div id="message-error" class="form-error" aria-live="polite"></div>
           </div>
 
           <!-- Bouton -->
