@@ -205,3 +205,76 @@ form textarea {
   display: none;
   opacity: 0;
 }
+
+
+/* GALERIE MEDIA PHOTOGRAPHE */
+
+.photograph-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem; 
+  margin: 2rem 0;
+}
+
+.media-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.media-item img,
+.media-item video {
+  width: 100%;   /* prend toute la largeur de la colonne */
+  height: 50%;
+  display: block;
+  object-fit: cover; /* coupe proprement si besoin */
+}
+
+.media-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.media-item h2 {
+  font-size: 1rem;
+  margin: 0.5rem 1rem 0 1rem;
+  flex: 1; /* pousse le titre avant le bouton like */
+}
+
+.like-button {
+  border: none;
+  background: transparent;
+  color: #901c1c;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0.5rem 1rem 1rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+
+
+
+
+
+
+@media (max-width: 1024px) {
+  .photograph-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+@media (max-width: 768px) {
+  .photograph-gallery {
+    grid-template-columns: 1fr;
+  }
+}
