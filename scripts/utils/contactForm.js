@@ -2,28 +2,29 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("contactForm.js chargé !"); // Debug : script chargé
 
-  // On récupère les éléments de la modale
+  // Récupération éléments modale
   const modal = document.getElementById("contact_modal");
   const nameSpan = document.getElementById("photographer-name");
   const openBtns = document.querySelectorAll(".modal-btn");
   const closeBtn = modal ? modal.querySelector(".modal-close") : null;
 
   console.log("modal :", modal); // Debug : modale trouvée ?
-  console.log("closeBtn :", closeBtn); // Debug : bouton de fermeture trouvé ?
+  console.log("closeBtn :", closeBtn); // Debug : bouton fermer trouvé ?
   console.log("openBtns :", openBtns.length, "bouton(s) trouvé(s)"); // Debug : boutons ouverture
 
-  // Ouvrir la modale
+  // Ouvrir modale
   function openModal() {
     modal.classList.add("show");
-    modal.setAttribute("aria-hidden", "false");
-    const firstInput = modal.querySelector("input, textarea, button");
-    if (firstInput) firstInput.focus();
+    modal.removeAttribute("aria-hidden"); 
+    modal.removeAttribute("inert"); 
+    modal.querySelector("input, textarea, button")?.focus();
   }
 
-  // Fermer la modale
+  // Fermer modale
   function closeModal() {
     modal.classList.remove("show");
     modal.setAttribute("aria-hidden", "true");
+    modal.setAttribute("inert", ""); // empêche focus dans modale fermée
   }
 
   // Ouvre modale au click
@@ -39,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Ferme au click hors de la modale
+  // Ferme si click hors de la modale
   modal.addEventListener("click", (event) => {
     if (event.target === modal) closeModal();
   });
@@ -154,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
         email: document.getElementById("email").value.trim(),
         message: document.getElementById("message").value.trim(),
       };
-      console.log("Données du formulaire :", formData); // Debug : données
+      console.log("Données du formulaire :", formData);
 
       // Affiche succès
       validMessage.classList.remove("form-error");
@@ -163,17 +164,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
       form.reset(); // reset formulaire
 
-      // Efface les anciens messages d'erreur
+      // Effacement anciens messages d'erreur
       document.querySelectorAll(".form-error").forEach((div) => {
         if (div.id !== "valid-message") div.textContent = "";
       });
     } else {
-      // Affiche erreur si invalid
+      // Afficher erreur si invalid
       validMessage.classList.remove("form-success");
       validMessage.classList.add("form-error");
       validMessage.textContent = "Certains champs doivent être corrigés.";
 
-      // Focus sur premier champ invalide
+      // Focus 1er champ invalide
       if (!validateFirstname()) {
         document.getElementById("firstname").focus();
       } else if (!validateLastname()) {
