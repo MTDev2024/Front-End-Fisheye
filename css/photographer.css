@@ -246,8 +246,12 @@ form textarea {
 
 
 .media-item h2 {
-  font-size: 1rem;
+  color: #901c1c;
+  font-size: 24px;
+  font-weight: 400;
   margin: 0;
+  flex-wrap: nowrap;
+  text-overflow: ellipsis;
   flex: 1; /* pousse le titre avant le bouton like */
 }
 
@@ -255,15 +259,76 @@ form textarea {
   border: none;
   background: transparent;
   color: #901c1c;
-  font-size: 1rem;
-  font-weight: bold;
+  font-size: 24px;
+  font-weight: 500;
   cursor: pointer;
   display: flex;
   align-items: center;
 }
 
 
+/* LIGHTBOX */
+.lightbox {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  z-index: 2000; 
+  border: solid 2px green;
+}
 
+.lightbox.show {
+  display: flex;
+}
+
+.lightbox-content {
+    width: 1050px;
+  height: 900px;
+  background: #f4f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid yellow;
+}
+
+.lightbox button svg {
+  width: 40px;
+  height: 40px;
+  fill: #901c1c;
+}
+
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+  position: absolute;
+  background: transparent;
+  padding: 10px;                
+  border: none;
+  cursor: pointer;
+  z-index: 2001;
+}
+
+.lightbox-close {
+   top: calc(50% - 450px - -10px); /* center - demi-hauteur - offset */
+  right: calc(50% - 525px - 60px); /* center - demi-largeur - offset */
+}
+
+.lightbox-prev {
+  top: 50%;
+  left: calc(50% - 525px - 60px); 
+  transform: translateY(-50%);
+}
+
+.lightbox-next {
+  top: 50%;
+  right: calc(50% - 525px - 60px); 
+  transform: translateY(-50%);
+}
+
+/* MEDIA QUERIES */
 
 
 @media (max-width: 1024px) {
