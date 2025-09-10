@@ -18,17 +18,22 @@
   <body>
     <header>
       <a href="index.html">
-        <img src="assets/images/logo.png" id="logo-2" class="logo" alt="Retour à l’accueil de Fisheye" >
+        <img
+          src="assets/images/logo.png"
+          id="logo-2"
+          class="logo"
+          alt="Retour à l’accueil de Fisheye"
+        />
       </a>
     </header>
     <main id="main">
       <div class="photograph-header">
         <button class="contact_button modal-btn">Contactez-moi</button>
       </div>
-      <section class="photograph-gallery" aria-label="Galerie de medias">
-        
-      </section>
-
+      <section
+        class="photograph-gallery"
+        aria-label="Galerie de medias"
+      ></section>
     </main>
 
     <!-- MODALE / OVERLAY -->
@@ -110,28 +115,37 @@
       </div>
     </div>
 
-
     <!-- LIGHTBOX -->
     <div id="lightbox" class="lightbox" aria-hidden="true">
-  <button class="lightbox-close" aria-label="Fermer">
-    <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-      <path d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z"/>
-    </svg>
-  </button>
-  <button class="lightbox-prev" aria-label="Précédent">
-    <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-      <path d="M685.248 104.704a64 64 0 010 90.496L368.448 512l316.8 316.8a64 64 0 01-90.496 90.496L232.704 557.248a64 64 0 010-90.496l362.048-362.048a64 64 0 0190.496 0z"/>
-    </svg>
-  </button>
-  <div class="lightbox-content"></div>
-  <button class="lightbox-next" aria-label="Suivant">
-    <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-      <path d="M338.752 104.704a64 64 0 000 90.496l316.8 316.8-316.8 316.8a64 64 0 0090.496 90.496l362.048-362.048a64 64 0 000-90.496L429.248 104.704a64 64 0 00-90.496 0z"/>
-    </svg>
-  </button>
-</div>
+      <button class="lightbox-close" aria-label="Fermer">
+        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z"
+          />
+        </svg>
+      </button>
+      <button class="lightbox-prev" aria-label="Précédent">
+        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M685.248 104.704a64 64 0 010 90.496L368.448 512l316.8 316.8a64 64 0 01-90.496 90.496L232.704 557.248a64 64 0 010-90.496l362.048-362.048a64 64 0 0190.496 0z"
+          />
+        </svg>
+      </button>
+      <div class="lightbox-content"></div>
+      <button class="lightbox-next" aria-label="Suivant">
+        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M338.752 104.704a64 64 0 000 90.496l316.8 316.8-316.8 316.8a64 64 0 0090.496 90.496l362.048-362.048a64 64 0 000-90.496L429.248 104.704a64 64 0 00-90.496 0z"
+          />
+        </svg>
+      </button>
+    </div>
 
-
+    <!-- LIKES / TJM -->
+    <div class="container">
+      <div class="likes"></div>
+      <div class="tjm"></div>
+    </div>
 
     <script src="scripts/pages/photographer.js"></script>
     <script src="scripts/utils/contactForm.js"></script>
