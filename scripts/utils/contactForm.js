@@ -5,30 +5,39 @@ document.addEventListener("DOMContentLoaded", () => {
   // Récupération éléments modale
   const modal = document.getElementById("contact_modal");
   const nameSpan = document.getElementById("photographer-name");
-  const openBtns = document.querySelectorAll(".modal-btn");
   const closeBtn = modal ? modal.querySelector(".modal-close") : null;
 
   console.log("modal :", modal); // Debug : modale trouvée ?
   console.log("closeBtn :", closeBtn); // Debug : bouton fermer trouvé ?
-  console.log("openBtns :", openBtns.length, "bouton(s) trouvé(s)"); // Debug : boutons ouverture
 
-  // Ouvrir modale
+  // ---------------------- MODALE ----------------------
+
   function openModal() {
     modal.classList.add("show");
-    modal.removeAttribute("aria-hidden"); 
-    modal.removeAttribute("inert"); 
+    modal.removeAttribute("aria-hidden");
+    modal.removeAttribute("inert");
     modal.querySelector("input, textarea, button")?.focus();
   }
 
-  // Fermer modale
   function closeModal() {
     modal.classList.remove("show");
     modal.setAttribute("aria-hidden", "true");
     modal.setAttribute("inert", ""); // empêche focus dans modale fermée
   }
 
-  // Ouvre modale au click
-  openBtns.forEach((btn) => btn.addEventListener("click", openModal));
+  // Rattacher events sur les boutons dynamiques
+  function bindOpenButtons() {
+    const openBtns = document.querySelectorAll(".contact_button");
+    console.log("openBtns :", openBtns.length, "bouton(s) trouvé(s)");
+
+    openBtns.forEach((btn) => {
+      btn.removeEventListener("click", openModal); // évite doublons
+      btn.addEventListener("click", openModal);
+    });
+  }
+
+  // Rttacher events aux boutons présents au chargement
+  bindOpenButtons();
 
   // Ferme modale au click sur croix
   if (closeBtn) closeBtn.addEventListener("click", closeModal);
@@ -44,6 +53,12 @@ document.addEventListener("DOMContentLoaded", () => {
   modal.addEventListener("click", (event) => {
     if (event.target === modal) closeModal();
   });
+
+  // Observer le DOM (détecte si un bouton est injecté après coup par JS)
+  const observer = new MutationObserver(() => {
+    bindOpenButtons();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
 
   // ---------------------- FORMULAIRE ----------------------
   const form = document.getElementById("form");

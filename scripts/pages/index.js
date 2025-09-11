@@ -1,11 +1,14 @@
-// Fonction qui récupère le JSON
+import { photographerTemplate } from "../templates/photographer.js";
+
+
+// Recuperation JSON
 async function getPhotographers() {
-  // On charge le fichier JSON
+  // Chargement JSON
   const reponse = await fetch("data/photographers.json");
   const data = await reponse.json();
-  console.log(data); // Affiche tout le contenu du JSON
+  console.log(data); // Affichage contenu du JSON
 
-  // On retourne uniquement le tableau de photographes
+  // Retourne uniquement tableau photographes
   return {
     photographers: data.photographers,
   };
@@ -15,7 +18,7 @@ async function displayData(photographers) {
   const photographersSection = document.querySelector(".photographer_section");
 
   photographers.forEach((photographer) => {
-    // On utilise le template pour générer la carte
+    // Utilisation du template pour generer la carte
     const photographerModel = photographerTemplate(photographer);
     const userCardDOM = photographerModel.getUserCardDOM();
     photographersSection.appendChild(userCardDOM);
@@ -23,7 +26,7 @@ async function displayData(photographers) {
 }
 
 async function init() {
-  // Récupère les datas des photographes
+  // Recuperation des datas des photographes
   const { photographers } = await getPhotographers();
   displayData(photographers);
 }
