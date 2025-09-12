@@ -1,5 +1,4 @@
 import { photographerTemplate } from "../templates/photographer.js";
-
 import { getData } from "../utils/api.js";
 import { mediaFactory } from "../factories/mediaFactory.js";
 
@@ -32,23 +31,40 @@ async function init() {
     gallery.appendChild(mediaFactory(m, photographer.folder))
   );
 
+  // --- Likes + TJM / prix ---
+  const container = document.querySelector(".container");
+  container.innerHTML = ""; // on vide le container pour réinitialiser
 
-  //Likes
+  // Création bloc likes
+  const likesEl = document.createElement("div");
+  likesEl.classList.add("likes");
+
+  // Calcul total des likes initial
+  let totalLikes = medias.reduce((sum, m) => sum + m.likes, 0);
+  likesEl.textContent = `${totalLikes} ❤`;
+
+  // Création bloc TJM / prix
+  const priceContainer = document.createElement("div");
+  priceContainer.classList.add("tjm");
+
+  const priceElt = document.createElement("div");
+  priceElt.textContent = `${photographer.price} €/jour`;
+  priceElt.classList.add("photographer-price");
+
+  priceContainer.appendChild(priceElt);
+
+  // Ajout dans le container
+  container.append(likesEl, priceContainer);
+
+  // --- Gestion des likes par média ---
   const likeButtons = document.querySelectorAll(".like-button");
-  const likesTotalEl = document.querySelector(".likes");
-
-  let totalLikes = 0;
   likeButtons.forEach(btn => {
-    const countEl = btn.querySelector(".like-count");
-    totalLikes += parseInt(countEl.textContent, 10);
-  });
-  likesTotalEl.textContent = `${totalLikes} ❤`;
+    let liked = false;
 
-  likeButtons.forEach(btn => {
-    let liked = false; 
     btn.addEventListener("click", () => {
       const countEl = btn.querySelector(".like-count");
       let count = parseInt(countEl.textContent, 10);
+
       if (!liked) {
         count++;
         totalLikes++;
@@ -60,12 +76,12 @@ async function init() {
         liked = false;
         btn.setAttribute("aria-pressed", "false");
       }
+
       countEl.textContent = count;
-      likesTotalEl.textContent = `${totalLikes} ❤`;
+      likesEl.textContent = `${totalLikes} ❤`;
     });
 
-
- // Support clavier
+    // Support clavier (Enter ou espace)
     btn.addEventListener("keydown", e => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
