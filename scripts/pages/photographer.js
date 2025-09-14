@@ -10,7 +10,7 @@ async function init() {
   const photographer = photographers.find((p) => p.id === id);
   if (!photographer) return console.error("Photographe introuvable");
 
-  // Header
+  // --- Header ---
   const header = document.querySelector(".photograph-header");
   header.appendChild(photographerTemplate(photographer).getUserHeaderDOM());
 
@@ -23,7 +23,7 @@ async function init() {
     console.warn("Élément #photographer-name introuvable dans le DOM");
   }
 
-  // Galerie
+  // --- Galerie ---
   const gallery = document.querySelector(".photograph-gallery");
   gallery.innerHTML = "";
   const medias = media.filter((m) => m.photographerId === id);
@@ -58,7 +58,7 @@ async function init() {
 
   // --- Gestion des likes par média ---
   const likeButtons = document.querySelectorAll(".like-button");
-  likeButtons.forEach(btn => {
+  likeButtons.forEach((btn) => {
     let liked = false;
 
     btn.addEventListener("click", () => {
@@ -82,12 +82,73 @@ async function init() {
     });
 
     // Support clavier (Enter ou espace)
-    btn.addEventListener("keydown", e => {
+    btn.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         btn.click();
       }
     });
+  });
+
+  // --- LIGHTBOX ---
+  const lightbox = document.getElementById("lightbox");
+  const lightboxContent = lightbox.querySelector(".lightbox-content");
+  const closeBtn = lightbox.querySelector(".lightbox-close");
+
+  const mediaItems = document.querySelectorAll(
+    ".media-item img, .media-item video"
+  );
+
+  // Ouvrir lightbox au click
+  mediaItems.forEach((media) => {
+    media.addEventListener("click", () => {
+      // Cloner média pour l'afficher
+      const clone = media.cloneNode(true);
+
+      // Accessibilité vidéos : conserver les controls
+      if (clone.tagName === "VIDEO") {
+        clone.setAttribute("controls", "true");
+        clone.setAttribute(
+          "aria-label",
+          media.alt || media.getAttribute("aria-label") || "Vidéo"
+        );
+      }
+
+      lightboxContent.innerHTML = "";
+      lightboxContent.appendChild(clone);
+
+      // Afficher lightbox
+      lightbox.classList.add("show");
+      lightbox.setAttribute("aria-hidden", "false");
+    });
+  });
+
+  // Fermer la lightbox
+  closeBtn.addEventListener("click", () => {
+    lightbox.classList.remove("show");
+    lightbox.setAttribute("aria-hidden", "true");
+    lightboxContent.innerHTML = "";
+  });
+
+  // --- GESTION CLAVIER ---
+  document.addEventListener("keydown", (e) => {
+    if (!lightbox.classList.contains("show")) return;
+
+    switch (e.key) {
+      case "Escape":
+        lightbox.classList.remove("show");
+        lightbox.setAttribute("aria-hidden", "true");
+        lightboxContent.innerHTML = "";
+        break;
+
+      case "ArrowRight":
+        console.log("média suivant");
+        break;
+
+      case "ArrowLeft":
+        console.log("média précédent");
+        break;
+    }
   });
 }
 
