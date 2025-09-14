@@ -153,3 +153,39 @@ async function init() {
 }
 
 init();
+
+const button = document.getElementById("dropdownButton");
+const dropdown = document.getElementById("myDropdown");
+const options = dropdown.querySelectorAll("li[role=option]");
+
+button.addEventListener("click", () => {
+  const expanded = button.getAttribute("aria-expanded") === "true";
+  button.setAttribute("aria-expanded", String(!expanded));
+  dropdown.classList.toggle("show");
+});
+
+// Sélection d’une option
+options.forEach(option => {
+  option.addEventListener("click", () => {
+    const value = option.textContent.trim();
+
+    // mettre à jour le bouton
+    button.textContent = value;
+
+    // mettre à jour aria-selected
+    options.forEach(o => o.setAttribute("aria-selected", "false"));
+    option.setAttribute("aria-selected", "true");
+
+    // fermer le menu
+    dropdown.classList.remove("show");
+    button.setAttribute("aria-expanded", "false");
+  });
+});
+
+// Fermer si clic à l’extérieur
+window.addEventListener("click", (e) => {
+  if (!e.target.closest(".dropdown-wrapper")) {
+    dropdown.classList.remove("show");
+    button.setAttribute("aria-expanded", "false");
+  }
+});
