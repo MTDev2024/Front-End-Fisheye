@@ -2,19 +2,35 @@ import { photographerTemplate } from "../templates/photographer.js";
 import { getData } from "../utils/api.js";
 import { mediaFactory } from "../factories/mediaFactory.js";
 
+
+// Variables globales
+
+let allMedia = []; // Tous les médias du JSON
+let medias = []; // Médias filtrés photographe courant
+
 async function init() {
-  const { photographers, media } = await getData();
+  
+  // 1 - Récupération données
+  
+  const data = await getData();
+  const photographers = data.photographers;
+  allMedia = data.media; // Stockage de tous les médias globalement
+
+  // Récuperation id photographe dans URL
   const params = new URLSearchParams(window.location.search);
   const id = parseInt(params.get("id"), 10);
 
+  // Trouver photographe correspondant
   const photographer = photographers.find((p) => p.id === id);
   if (!photographer) return console.error("Photographe introuvable");
 
-  // --- Header ---
+  
+  // 2 - Header photographe
+  
   const header = document.querySelector(".photograph-header");
   header.appendChild(photographerTemplate(photographer).getUserHeaderDOM());
 
-  // Ajout nom photographe dans la modale
+  // Injecter nom dans modale contact
   const nameP = document.getElementById("photographer-name");
   if (nameP) {
     nameP.textContent = photographer.name;
@@ -23,40 +39,46 @@ async function init() {
     console.warn("Élément #photographer-name introuvable dans le DOM");
   }
 
-  // --- Galerie ---
+  
+  // 3 - Galerie
+  
   const gallery = document.querySelector(".photograph-gallery");
   gallery.innerHTML = "";
-  const medias = media.filter((m) => m.photographerId === id);
+
+  // Filtrer médias du photographe courant
+  medias = allMedia.filter((m) => m.photographerId === id);
+
+  // Afficher chaque média avec le factory
   medias.forEach((m) =>
     gallery.appendChild(mediaFactory(m, photographer.folder))
   );
 
-  // --- Likes + TJM / prix ---
+  
+  // 4 - Likes et prix
+  
   const container = document.querySelector(".container");
-  container.innerHTML = ""; // on vide le container pour réinitialiser
+  container.innerHTML = "";
 
-  // Création bloc likes
+  // Bloc likes
   const likesEl = document.createElement("div");
   likesEl.classList.add("likes");
-
-  // Calcul total des likes initial
   let totalLikes = medias.reduce((sum, m) => sum + m.likes, 0);
   likesEl.textContent = `${totalLikes} ❤`;
 
-  // Création bloc TJM / prix
+  // Bloc prix
   const priceContainer = document.createElement("div");
   priceContainer.classList.add("tjm");
 
   const priceElt = document.createElement("div");
   priceElt.textContent = `${photographer.price} €/jour`;
   priceElt.classList.add("photographer-price");
-
   priceContainer.appendChild(priceElt);
 
-  // Ajout dans le container
   container.append(likesEl, priceContainer);
 
-  // --- Gestion des likes par média ---
+  
+  // 5 - Gestion likes médias
+  
   const likeButtons = document.querySelectorAll(".like-button");
   likeButtons.forEach((btn) => {
     let liked = false;
@@ -81,7 +103,7 @@ async function init() {
       likesEl.textContent = `${totalLikes} ❤`;
     });
 
-    // Support clavier (Enter ou espace)
+    // Support clavier (Entrer ou espace)
     btn.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
@@ -90,7 +112,9 @@ async function init() {
     });
   });
 
-  // --- LIGHTBOX ---
+  
+  // 6 - Lightbox
+  
   const lightbox = document.getElementById("lightbox");
   const lightboxContent = lightbox.querySelector(".lightbox-content");
   const closeBtn = lightbox.querySelector(".lightbox-close");
@@ -99,13 +123,10 @@ async function init() {
     ".media-item img, .media-item video"
   );
 
-  // Ouvrir lightbox au click
   mediaItems.forEach((media) => {
     media.addEventListener("click", () => {
-      // Cloner média pour l'afficher
       const clone = media.cloneNode(true);
 
-      // Accessibilité vidéos : conserver les controls
       if (clone.tagName === "VIDEO") {
         clone.setAttribute("controls", "true");
         clone.setAttribute(
@@ -117,20 +138,18 @@ async function init() {
       lightboxContent.innerHTML = "";
       lightboxContent.appendChild(clone);
 
-      // Afficher lightbox
       lightbox.classList.add("show");
       lightbox.setAttribute("aria-hidden", "false");
     });
   });
 
-  // Fermer la lightbox
   closeBtn.addEventListener("click", () => {
     lightbox.classList.remove("show");
     lightbox.setAttribute("aria-hidden", "true");
     lightboxContent.innerHTML = "";
   });
 
-  // --- GESTION CLAVIER ---
+  // Gestion clavier lightbox
   document.addEventListener("keydown", (e) => {
     if (!lightbox.classList.contains("show")) return;
 
@@ -140,11 +159,9 @@ async function init() {
         lightbox.setAttribute("aria-hidden", "true");
         lightboxContent.innerHTML = "";
         break;
-
       case "ArrowRight":
         console.log("média suivant");
         break;
-
       case "ArrowLeft":
         console.log("média précédent");
         break;
@@ -152,47 +169,53 @@ async function init() {
   });
 }
 
+
+// Initialisation
+
 init();
 
 
+// 7 - Dropdown tri
 
-// Menu Dropdown Trier
 const button = document.getElementById("dropdownButton");
 const list = document.getElementById("myDropdown");
 const options = list.querySelectorAll("li");
 
-// Ouvrir/fermer le menu
+// Ouvrir / fermer le menu
 button.addEventListener("click", () => {
   const expanded = button.getAttribute("aria-expanded") === "true";
   button.setAttribute("aria-expanded", String(!expanded));
   list.classList.toggle("show");
 });
 
-// Quand on clique sur une option
-options.forEach(option => {
+// Clic sur une option
+options.forEach((option) => {
   option.addEventListener("click", () => {
     const selectedText = option.innerText;
 
-    // Mettre à jour le texte du bouton en conservant l'icône
+    // medias est maintenant accessible ici
+    console.log("Critère choisi :", selectedText);
+    console.log("Tableau des médias filtré :", medias);
+
+    // Mettre à jour texte bouton
     const img = button.querySelector("img");
     button.textContent = selectedText;
     button.appendChild(img);
 
-    // Mettre à jour aria-selected
-    options.forEach(opt => opt.setAttribute("aria-selected", "false"));
+    // Aria selected
+    options.forEach((opt) => opt.setAttribute("aria-selected", "false"));
     option.setAttribute("aria-selected", "true");
 
-    // Ferme le menu
+    // Fermer le menu
     button.setAttribute("aria-expanded", "false");
     list.classList.remove("show");
   });
 });
 
-// Fermer si clic à l'extérieur
+// Fermer menu au clic extérieur
 window.addEventListener("click", (event) => {
   if (!event.target.closest(".dropdown-wrapper")) {
     button.setAttribute("aria-expanded", "false");
     list.classList.remove("show");
   }
 });
-
