@@ -154,38 +154,45 @@ async function init() {
 
 init();
 
-const button = document.getElementById("dropdownButton");
-const dropdown = document.getElementById("myDropdown");
-const options = dropdown.querySelectorAll("li[role=option]");
 
+
+// Menu Dropdown Trier
+const button = document.getElementById("dropdownButton");
+const list = document.getElementById("myDropdown");
+const options = list.querySelectorAll("li");
+
+// Ouvrir/fermer le menu
 button.addEventListener("click", () => {
   const expanded = button.getAttribute("aria-expanded") === "true";
   button.setAttribute("aria-expanded", String(!expanded));
-  dropdown.classList.toggle("show");
+  list.classList.toggle("show");
 });
 
-// Sélection d’une option
+// Quand on clique sur une option
 options.forEach(option => {
   option.addEventListener("click", () => {
-    const value = option.textContent.trim();
+    const selectedText = option.innerText;
 
-    // mettre à jour le bouton
-    button.textContent = value;
+    // Mettre à jour le texte du bouton en conservant l'icône
+    const img = button.querySelector("img");
+    button.textContent = selectedText;
+    button.appendChild(img);
 
-    // mettre à jour aria-selected
-    options.forEach(o => o.setAttribute("aria-selected", "false"));
+    // Mettre à jour aria-selected
+    options.forEach(opt => opt.setAttribute("aria-selected", "false"));
     option.setAttribute("aria-selected", "true");
 
-    // fermer le menu
-    dropdown.classList.remove("show");
+    // Ferme le menu
     button.setAttribute("aria-expanded", "false");
+    list.classList.remove("show");
   });
 });
 
-// Fermer si clic à l’extérieur
-window.addEventListener("click", (e) => {
-  if (!e.target.closest(".dropdown-wrapper")) {
-    dropdown.classList.remove("show");
+// Fermer si clic à l'extérieur
+window.addEventListener("click", (event) => {
+  if (!event.target.closest(".dropdown-wrapper")) {
     button.setAttribute("aria-expanded", "false");
+    list.classList.remove("show");
   }
 });
+
