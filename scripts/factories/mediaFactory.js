@@ -12,18 +12,20 @@ export function mediaFactory(media, photographerFolder) {
     // Image normale
     mediaElement = document.createElement("img");
     mediaElement.src = `assets/Sample Photos/${folderName}/${media.image}`;
-    mediaElement.alt = media.title; // accessibilité
+    mediaElement.alt = media.title; // Accessibilité
+    mediaElement.setAttribute("loading", "lazy"); // lazy load
     mediaElement.tabIndex = 0; // focus clavier
   } else if (media.video) {
     // Vidéo miniature
     isVideo = true;
     mediaElement = document.createElement("video");
     mediaElement.src = `assets/Sample Photos/${folderName}/${media.video}`;
-    mediaElement.setAttribute("aria-label", media.title);
-    mediaElement.tabIndex = -1; // ne prend pas le focus, le bouton sert au focus
+    mediaElement.setAttribute("aria-label", media.title); // accessibilité
+    mediaElement.setAttribute("loading", "lazy"); // pour navigateurs compatible
+    mediaElement.preload = "metadata"; 
+    mediaElement.muted = true; // autoplay silencieux si besoin
     mediaElement.removeAttribute("controls"); // pas de lecture dans la galerie
-    mediaElement.muted = true; // auto-play
-    mediaElement.preload = "metadata";
+    mediaElement.tabIndex = -1; // ne prend pas le focus, le focus sera sur le bouton ou conteneur
   }
 
   // --- Conteneur pour overlay play si vidéo ---
