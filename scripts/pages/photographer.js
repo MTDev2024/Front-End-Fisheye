@@ -194,14 +194,19 @@ async function init() {
         // Tri décroissant  likes
         medias.sort((a, b) => b.likes - a.likes);
       }
-      if (selectedText === "Nom") {
-        // Tri alphabétique titre
-        medias.sort((a, b) => a.title.localeCompare(b.title));
+      if (selectedText === "Titre") {
+       // Tri alphabétique, insensible à la casse
+      medias.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()));
       }
+
+
+
+
 
       // --- Recréation galerie après tri ---
       gallery.innerHTML = "";
       medias.forEach((m) => gallery.appendChild(mediaFactory(m, photographer.folder)));
+      
 
       // --- Mise à jour texte bouton ---
       const img = button.querySelector("img");

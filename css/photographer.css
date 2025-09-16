@@ -12,7 +12,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  border: solid 2px violet;
+  /* border: solid 2px violet; */
 }
 
 /* Visible quand on ajoute la classe .show */
@@ -39,7 +39,7 @@
   display: flex;
   justify-content: center;
   margin: 0 auto;
-  border: solid 2px green;
+  /* border: solid 2px green; */
 }
 
 .photograph-hero {
@@ -448,7 +448,7 @@ form textarea {
   align-items: center;
   background: #ffffff;
   z-index: 2000;
-  border: solid 2px green;
+  /* border: solid 2px green; */
 }
 
 .lightbox.show {
@@ -463,7 +463,7 @@ form textarea {
   align-items: center;
   background: #f4f0f0;
   overflow: hidden; 
-  border: 2px solid yellow;
+  /* border: 2px solid yellow; */
 }
 
 .lightbox-content img,

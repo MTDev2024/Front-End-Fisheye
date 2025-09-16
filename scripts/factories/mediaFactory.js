@@ -22,7 +22,7 @@ export function mediaFactory(media, photographerFolder) {
     mediaElement.setAttribute("aria-label", media.title);
     mediaElement.tabIndex = -1; // ne prend pas le focus, le bouton sert au focus
     mediaElement.removeAttribute("controls"); // pas de lecture dans la galerie
-    mediaElement.muted = true; // auto-play silencieux si besoin
+    mediaElement.muted = true; // auto-play
     mediaElement.preload = "metadata";
   }
 
@@ -32,7 +32,7 @@ export function mediaFactory(media, photographerFolder) {
   mediaContainer.appendChild(mediaElement);
 
   if (isVideo) {
-    // Création du bouton play overlay
+    // Création bouton play overlay
     const playBtn = document.createElement("button");
     playBtn.classList.add("video-play-button");
     playBtn.setAttribute("aria-label", `Lire ${media.title}`);
@@ -44,7 +44,7 @@ export function mediaFactory(media, photographerFolder) {
     playBtn.tabIndex = 0; // focus clavier
     mediaContainer.appendChild(playBtn);
 
-    // Ouvrir la lightbox au clic ou au clavier
+    // Ouvrir lightbox clic ou clavier
     playBtn.addEventListener("click", () => openLightbox(mediaElement.cloneNode(true)));
     playBtn.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -55,7 +55,7 @@ export function mediaFactory(media, photographerFolder) {
 
     mediaElement.addEventListener("click", () => openLightbox(mediaElement.cloneNode(true)));
   } else {
-    // Click sur l'image ouvre la lightbox
+    // Ouvrir lightbox au clic sur image
     mediaElement.addEventListener("click", () => openLightbox(mediaElement.cloneNode(true)));
     mediaElement.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -85,12 +85,12 @@ export function mediaFactory(media, photographerFolder) {
   return article;
 }
 
-// --- Fonction d'ouverture de la lightbox ---
+// --- Fonction ouverture lightbox ---
 function openLightbox(clone) {
   const lightbox = document.getElementById("lightbox");
   const content = lightbox.querySelector(".lightbox-content");
 
-  // Si c'est une vidéo, on remet les controls et on lance la lecture
+  // Si vidéo -> affichage des controles puis lecture
   if (clone.tagName === "VIDEO") {
     clone.setAttribute("controls", "");
     clone.autoplay = true;
@@ -102,7 +102,7 @@ function openLightbox(clone) {
   lightbox.classList.add("show");
   lightbox.setAttribute("aria-hidden", "false");
 
-  // --- Fermer la lightbox en cliquant hors du contenu ---
+  // --- Fermer lightbox au clic extérieur ---
   lightbox.addEventListener("click", (e) => {
     if (!content.contains(e.target)) closeLightbox();
   });
@@ -112,7 +112,7 @@ function openLightbox(clone) {
   closeBtn.addEventListener("click", closeLightbox);
 }
 
-// --- Fonction de fermeture ---
+// --- Fonction fermeture ---
 function closeLightbox() {
   const lightbox = document.getElementById("lightbox");
   const content = lightbox.querySelector(".lightbox-content");
