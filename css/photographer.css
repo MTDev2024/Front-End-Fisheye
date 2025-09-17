@@ -1,6 +1,6 @@
 
 #contact_modal {
-  position: fixed; /* occupe tout l’écran */
+  position: fixed; 
   top: 0;
   left: 0;
   width: 100%;
@@ -12,10 +12,8 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  /* border: solid 2px violet; */
 }
 
-/* Visible quand on ajoute la classe .show */
 #contact_modal.show {
   display: flex;
 }
@@ -39,7 +37,6 @@
   display: flex;
   justify-content: center;
   margin: 0 auto;
-  /* border: solid 2px green; */
 }
 
 .photograph-hero {
@@ -53,7 +50,7 @@
 
 .photograph-info h1,
 .photograph-info p {
-  margin: 0; /* suppression des marges par défaut */
+  margin: 0; /* suppression marges par défaut */
 }
 
 .photograph-info {
