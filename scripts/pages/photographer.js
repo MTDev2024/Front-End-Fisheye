@@ -1,11 +1,9 @@
-// Import modules 
+// Import modules
 import { photographerTemplate } from "../templates/photographer.js"; // Template HTML pour le photographe
 import { getData } from "../utils/api.js"; // Fonction pour récupérer le JSON
 import { mediaFactory } from "../factories/mediaFactory.js"; // Factory pour créer les éléments médias
 
-
 // 1 - Variables globales
-
 
 // Stocke tous les médias du JSON
 let allMedia = [];
@@ -16,11 +14,9 @@ let medias = [];
 // Galerie photographe courant (déclarée ici pour être accessible depuis le tri)
 let gallery;
 
-
 // 2 - Fonction principale init()
 
 async function init() {
-
   // ---- 2.1 - Récupération des données ----
   const data = await getData(); // récupération du JSON
   const photographers = data.photographers; // tableau de tous les photographes
@@ -79,31 +75,49 @@ async function init() {
 
   // ---- 2.5 - Gestion likes / média ----
   const likeButtons = document.querySelectorAll(".like-button");
+
   likeButtons.forEach((btn) => {
-    let liked = false; // état du bouton (aimé ou non)
+    // Identifier média via data-id du bouton
+    const mediaId = btn.dataset.id;
+
+    // Récupérer nbre de likes sauvegardé dans localStorage (si présent)
+    const savedLikes = window.localStorage.getItem(`likes-${mediaId}`);
+
+    let liked = false; // état (liké ou non)
+
+    // Si des likes étaient déjà sauvegardés -> on les restaure
+    if (savedLikes) {
+      btn.querySelector(".like-count").textContent = savedLikes;
+      liked = true; // déjà aimé
+    }
 
     btn.addEventListener("click", () => {
       const countEl = btn.querySelector(".like-count");
       let count = parseInt(countEl.textContent, 10);
 
       if (!liked) {
+        // Si média pas déjà aimé -> incrémenter
         count++;
-        totalLikes++;
+        totalLikes++; // màj total global
         liked = true;
         btn.setAttribute("aria-pressed", "true"); // accessibilité
       } else {
+        // Si déjà aimé -> décrémenter
         count--;
         totalLikes--;
         liked = false;
         btn.setAttribute("aria-pressed", "false");
       }
 
-      // Mettre à jour affichage
+      // Màj affichage compteur
       countEl.textContent = count;
       likesEl.textContent = `${totalLikes} ❤`;
+
+      // Sauvegarde nouveau nombre de likes dans localStorage
+      window.localStorage.setItem(`likes-${mediaId}`, count);
     });
 
-    // Support clavier Entrer ou espace
+    // Support clavier Entrer ou Espace
     btn.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
@@ -118,7 +132,9 @@ async function init() {
   const closeBtn = lightbox.querySelector(".lightbox-close");
 
   // Sélection tous les médias visibles (img + vidéo)
-  const mediaItems = document.querySelectorAll(".media-item img, .media-item video");
+  const mediaItems = document.querySelectorAll(
+    ".media-item img, .media-item video"
+  );
 
   // Ouvrir lightbox au clic
   mediaItems.forEach((media) => {
@@ -191,24 +207,23 @@ async function init() {
         medias.sort((a, b) => new Date(b.date) - new Date(a.date));
       }
       if (selectedText === "Popularité") {
-        // Tri décroissant  likes
+        // Tri décroissant likes
         medias.sort((a, b) => b.likes - a.likes);
       }
       if (selectedText === "Titre") {
-       // Tri alphabétique, insensible à la casse
-      medias.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()));
+        // Tri alphabétique, insensible à la casse
+        medias.sort((a, b) =>
+          a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+        );
       }
-
-
-
-
 
       // --- Recréation galerie après tri ---
       gallery.innerHTML = "";
-      medias.forEach((m) => gallery.appendChild(mediaFactory(m, photographer.folder)));
-      
+      medias.forEach((m) =>
+        gallery.appendChild(mediaFactory(m, photographer.folder))
+      );
 
-      // --- Mise à jour texte bouton ---
+      // --- Màj texte bouton ---
       const img = button.querySelector("img");
       button.textContent = selectedText;
       button.appendChild(img);
@@ -223,7 +238,7 @@ async function init() {
     });
   });
 
-  // Fermer le menu si clic à l'extérieur
+  // Fermer menu si clic extérieur
   window.addEventListener("click", (event) => {
     if (!event.target.closest(".dropdown-wrapper")) {
       button.setAttribute("aria-expanded", "false");
@@ -231,7 +246,6 @@ async function init() {
     }
   });
 }
-
 
 // 3 - Lancement
 
