@@ -445,7 +445,7 @@ form textarea {
   align-items: center;
   background: #ffffff;
   z-index: 2000;
-  /* border: solid 2px green; */
+  border: solid 2px green;
 }
 
 .lightbox.show {
@@ -460,7 +460,7 @@ form textarea {
   align-items: center;
   background: #f4f0f0;
   overflow: hidden; 
-  /* border: 2px solid yellow; */
+  border: 2px solid yellow;
 }
 
 .lightbox-content img,
@@ -477,6 +477,11 @@ form textarea {
   height: 40px;
   fill: #901c1c;
 }
+
+.lightbox button:focus {
+  outline: 3px solid blue;
+}
+
 
 .lightbox-close,
 .lightbox-prev,
@@ -505,6 +510,20 @@ form textarea {
   right: calc(50% - 525px - 60px);
   transform: translateY(-50%);
 }
+
+/* Titre dans la lightbox */
+.lightbox-title {
+  position: absolute;
+  bottom: 150px;
+  left: 700px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #901c1c;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
 
 /* LIKES / TJM */
 .container {

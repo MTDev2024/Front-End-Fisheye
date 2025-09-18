@@ -96,14 +96,14 @@ async function init() {
       let count = parseInt(countEl.textContent, 10);
 
       if (!liked) {
-        // Si média pas déjà aimé -> incrémenter
-        count++;
+        // Si média pas déjà aimé ->
+        count++; // incrémenter
         totalLikes++; // màj total global
         liked = true;
         btn.setAttribute("aria-pressed", "true"); // accessibilité
       } else {
-        // Si déjà aimé -> décrémenter
-        count--;
+        // Si déjà aimé ->
+        count--; // décrémenter
         totalLikes--;
         liked = false;
         btn.setAttribute("aria-pressed", "false");
@@ -131,54 +131,121 @@ async function init() {
   const lightboxContent = lightbox.querySelector(".lightbox-content");
   const closeBtn = lightbox.querySelector(".lightbox-close");
 
-  // Sélection tous les médias visibles (img + vidéo)
+  // Sélection de tous les médias visibles (images + vidéos)
   const mediaItems = document.querySelectorAll(
     ".media-item img, .media-item video"
   );
+  // console.log(mediaItems); // Vérification console
 
-  // Ouvrir lightbox au clic
-  mediaItems.forEach((media) => {
+  let currentIndex = 0; // Index média affiché dans lightbox
+
+  // --- Fonction affichage média dans lightbox ---
+  function showMedia(index) {
+    const media = mediaItems[index];
+    if (!media) return; // sécurité si index invalide
+
+    const clone = media.cloneNode(true); // clone pour ne pas déplacer l'original
+
+    // Si média = vidéo, ajout contrôles + aria-label
+    if (clone.tagName === "VIDEO") {
+      clone.setAttribute("controls", "true");
+      clone.setAttribute(
+        "aria-label",
+        media.alt || media.getAttribute("aria-label") || "Vidéo"
+      );
+    }
+
+    lightboxContent.innerHTML = ""; // vider contenu actuel
+    lightboxContent.appendChild(clone); // afficher média cloné
+    lightbox.classList.add("show"); // montrer lightbox
+    lightbox.setAttribute("aria-hidden", "false");
+    // Affichage du titre en bas
+  const title = document.createElement("div");
+  title.classList.add("lightbox-title");
+  title.textContent = media.dataset.title || "";
+  lightboxContent.appendChild(title);
+  }
+
+  // --- Ouvrir lightbox au clic sur un média ---
+  mediaItems.forEach((media, index) => {
     media.addEventListener("click", () => {
-      const clone = media.cloneNode(true);
-
-      // Si vidéo, ajouter controles + aria-label
-      if (clone.tagName === "VIDEO") {
-        clone.setAttribute("controls", "true");
-        clone.setAttribute(
-          "aria-label",
-          media.alt || media.getAttribute("aria-label") || "Vidéo"
-        );
-      }
-
-      lightboxContent.innerHTML = ""; // vider contenu
-      lightboxContent.appendChild(clone);
-      lightbox.classList.add("show");
-      lightbox.setAttribute("aria-hidden", "false");
+      currentIndex = index; // maj index actuel
+      showMedia(currentIndex);
     });
   });
 
-  // Fermer lightbox
-  closeBtn.addEventListener("click", () => {
+  // --- Fermer lightbox ---
+  closeBtn.addEventListener("click", (e) => {
+    e.stopPropagation(); // éviter que le clic remonte à l'overlay
     lightbox.classList.remove("show");
     lightbox.setAttribute("aria-hidden", "true");
     lightboxContent.innerHTML = "";
   });
 
-  // Navigation clavier dans lightbox
+  // --- Fermer lightbox en cliquant sur l'overlay ---
+  lightbox.addEventListener("click", () => {
+    lightbox.classList.remove("show");
+    lightbox.setAttribute("aria-hidden", "true");
+    lightboxContent.innerHTML = "";
+  });
+
+  // --- Empêcher fermeture lors du clic sur le contenu ---
+  lightboxContent.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+
+  // --- Navigation clavier dans la lightbox ---
   document.addEventListener("keydown", (e) => {
-    if (!lightbox.classList.contains("show")) return;
+    if (!lightbox.classList.contains("show")) return; // ignorer si lightbox fermée
     switch (e.key) {
       case "Escape":
+        // Fermer lightbox avec Échap
         lightbox.classList.remove("show");
         lightbox.setAttribute("aria-hidden", "true");
         lightboxContent.innerHTML = "";
         break;
       case "ArrowRight":
-        console.log("média suivant");
+        // Média suivant
+        currentIndex = (currentIndex + 1) % mediaItems.length;
+        showMedia(currentIndex);
         break;
       case "ArrowLeft":
-        console.log("média précédent");
+        // Média précédent
+        currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
+        showMedia(currentIndex);
         break;
+    }
+  });
+
+  // --- Navigation avec boutons flèches ---
+  const prevBtn = lightbox.querySelector(".lightbox-prev");
+  const nextBtn = lightbox.querySelector(".lightbox-next");
+
+  // Clic boutons
+  prevBtn.addEventListener("click", (e) => {
+    e.stopPropagation(); // éviter propagation au clic sur overlay
+    currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
+    showMedia(currentIndex);
+  });
+
+  nextBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    currentIndex = (currentIndex + 1) % mediaItems.length;
+    showMedia(currentIndex);
+  });
+
+  // Navigation clavier sur boutons
+  prevBtn.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault(); // éviter scroll page
+      prevBtn.click();
+    }
+  });
+
+  nextBtn.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      nextBtn.click();
     }
   });
 
@@ -212,16 +279,12 @@ async function init() {
       }
       if (selectedText === "Titre") {
         // Tri alphabétique, insensible à la casse
-        medias.sort((a, b) =>
-          a.title.toLowerCase().localeCompare(b.title.toLowerCase())
-        );
+        medias.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()));
       }
 
       // --- Recréation galerie après tri ---
       gallery.innerHTML = "";
-      medias.forEach((m) =>
-        gallery.appendChild(mediaFactory(m, photographer.folder))
-      );
+      medias.forEach((m) => gallery.appendChild(mediaFactory(m, photographer.folder)));
 
       // --- Màj texte bouton ---
       const img = button.querySelector("img");

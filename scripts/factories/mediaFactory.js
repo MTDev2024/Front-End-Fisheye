@@ -29,6 +29,9 @@ export function mediaFactory(media, photographerFolder) {
     mediaElement.tabIndex = -1; // Focus bouton ou conteneur
   }
 
+  // --- Ajout data-title pour la lightbox ---
+  mediaElement.dataset.title = media.title;
+
   // --- Conteneur overlay play si vidéo ---
   const mediaContainer = document.createElement("div");
   mediaContainer.classList.add("media-container");
