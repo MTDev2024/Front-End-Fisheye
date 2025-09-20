@@ -38,7 +38,7 @@ async function init() {
   const nameP = document.getElementById("photographer-name");
   if (nameP) {
     nameP.textContent = photographer.name;
-    console.log(`Nom photographe injecté dans modale : ${photographer.name}`);
+   // console.log(`Nom photographe injecté dans modale : ${photographer.name}`);
   }
 
   // ---- 2.3 - Galerie ----
@@ -308,6 +308,8 @@ async function init() {
       list.classList.remove("show");
     }
   });
+
+  return true;
 }
 
 // 3 - Lancement
