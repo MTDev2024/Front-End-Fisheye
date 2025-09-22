@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
-     <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="css/photographer.css" />
     <meta charset="utf-8" />
     <meta
@@ -28,41 +28,48 @@
     </header>
     <main id="main">
       <div class="photograph-header">
-      <!--  -->
+        <!--  -->
       </div>
 
-      
-      
-<div class="Dropdown">
-  <p id="sort-label">Trier par</p>
-  
-  <div class="dropdown-wrapper">
-    <!-- bouton principal -->
-    <button id="dropdownButton"
+      <div class="Dropdown">
+        <p id="sort-label">Trier par</p>
+
+        <div class="dropdown-wrapper">
+          <!-- bouton principal -->
+          <button
+            id="dropdownButton"
             class="dropbtn"
             aria-haspopup="listbox"
             aria-expanded="false"
-            aria-labelledby="sort-label dropdownButton">
-      Popularité
-      <img src="/Front-End-Fisheye/assets/icons/expand_more-24px 4.png" alt="">
-    </button>
+            aria-labelledby="sort-label dropdownButton"
+          >
+            Popularité
+            <img
+              src="/Front-End-Fisheye/assets/icons/expand_more-24px 4.png"
+              alt=""
+            />
+          </button>
 
-    <!-- liste des options -->
-    <ul id="myDropdown" class="dropdown-content" role="listbox" aria-labelledby="sort-label">
-      <li role="option" aria-selected="true"><button>Popularité</button></li>
-      <li role="option"><button>Date</button></li>
-      <li role="option"><button>Titre</button></li>
-    </ul>
-  </div>
-</div>
+          <!-- liste des options -->
+          <ul
+            id="myDropdown"
+            class="dropdown-content"
+            role="listbox"
+            aria-labelledby="sort-label"
+          >
+            <li role="option" aria-selected="true">
+              <button>Popularité</button>
+            </li>
+            <li role="option"><button>Date</button></li>
+            <li role="option"><button>Titre</button></li>
+          </ul>
+        </div>
+      </div>
 
-<!-- Galerie -->  
-      <section
-        class="photograph-gallery"
-        aria-label="Galerie de medias"
-      >
-    <!--  -->
-    </section>
+      <!-- Galerie -->
+      <section class="photograph-gallery" aria-label="Galerie de medias">
+        <!--  -->
+      </section>
     </main>
 
     <!-- MODALE / OVERLAY -->
@@ -136,9 +143,7 @@
           </div>
 
           <!-- Bouton -->
-          <button type="submit"  id="contact_form_submit">
-            Envoyer
-          </button>
+          <button type="submit" id="contact_form_submit">Envoyer</button>
           <div id="valid-message" aria-live="polite"></div>
         </form>
       </div>
@@ -178,6 +183,5 @@
 
     <script type="module" src="scripts/pages/photographer.js"></script>
     <script type="module" src="scripts/utils/contactForm.js"></script>
-
   </body>
 </html>

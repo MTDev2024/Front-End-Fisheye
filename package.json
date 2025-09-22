@@ -1,0 +1,26 @@
+{
+  "name": "front-end-fisheye",
+  "version": "1.0.0",
+  "description": "Rien à installer ici, il suffit d'ouvrir le fichier `index.html`.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "clean": "eslint \"scripts/**/*.js\" --fix && npx prettier --write \"scripts/**/*.js\""
+  },
+  "devDependencies": {
+    "cross-env": "^10.0.0",
+    "cross-var": "^1.1.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "http-server": "^14.1.1",
+    "prettier": "^3.6.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

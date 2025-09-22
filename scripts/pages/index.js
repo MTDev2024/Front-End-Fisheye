@@ -1,10 +1,9 @@
-import { photographerTemplate } from "../templates/photographer.js";
-
+import { photographerTemplate } from '../templates/photographer.js';
 
 // Recuperation JSON
 async function getPhotographers() {
   // Chargement JSON
-  const reponse = await fetch("data/photographers.json");
+  const reponse = await fetch('data/photographers.json');
   const data = await reponse.json();
   console.log(data); // Affichage contenu du JSON
 
@@ -15,7 +14,7 @@ async function getPhotographers() {
 }
 
 async function displayData(photographers) {
-  const photographersSection = document.querySelector(".photographer_section");
+  const photographersSection = document.querySelector('.photographer_section');
 
   photographers.forEach((photographer) => {
     // Utilisation du template pour generer la carte
