@@ -100,8 +100,8 @@ async function init() {
 
       if (!liked) {
         // Si média pas déjà aimé ->
-        count += -1; // incrémenter
-        totalLikes += -1; // màj total global
+        count += 1; // incrémenter
+        totalLikes += 1; // màj total global
         liked = true;
         btn.setAttribute('aria-pressed', 'true'); // accessibilité
       } else {
