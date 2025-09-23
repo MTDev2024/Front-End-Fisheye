@@ -75,8 +75,8 @@ async function init() {
 
   container.append(likesEl, priceContainer);
 
-  // ---- 2.5 - Gestion likes / média (délégation d'événements) ----
-  // On attache un listener sur le parent "gallery" pour tous les likes
+  // ---- 2.5 - Gestion likes / média (délégation d'événements / bubbling) ----
+  // Listener sur le parent "gallery" pour tous les likes
   gallery.addEventListener('click', (e) => {
     const btn = e.target.closest('.like-button'); // vérifie si clic sur like ou icône à l'intérieur
     if (!btn) return;
@@ -102,6 +102,7 @@ async function init() {
     countEl.textContent = count;
 
     // Màj total global likes
+    // eslint-disable-next-line prefer-const
     let totalLikes = Array.from(
       document.querySelectorAll('.like-count'),
     ).reduce((sum, el) => sum + parseInt(el.textContent, 10), 0);
