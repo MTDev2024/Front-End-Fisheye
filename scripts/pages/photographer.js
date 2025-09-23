@@ -15,7 +15,6 @@ let medias = [];
 let gallery;
 
 // 2 - Fonction principale init()
-
 async function init() {
   // ---- 2.1 - Récupération des données ----
   const data = await getData(); // récupération du JSON
@@ -76,57 +75,52 @@ async function init() {
 
   container.append(likesEl, priceContainer);
 
-  // ---- 2.5 - Gestion likes / média ----
-  const likeButtons = document.querySelectorAll('.like-button');
+  // ---- 2.5 - Gestion likes / média (délégation d'événements) ----
+  // On attache un listener sur le parent "gallery" pour tous les likes
+  gallery.addEventListener('click', (e) => {
+    const btn = e.target.closest('.like-button'); // vérifie si clic sur like ou icône à l'intérieur
+    if (!btn) return;
 
-  likeButtons.forEach((btn) => {
-    // Identifier média via data-id du bouton
     const mediaId = btn.dataset.id;
+    const countEl = btn.querySelector('.like-count');
+    let count = parseInt(countEl.textContent, 10);
 
-    // Récupérer nbre de likes sauvegardé dans localStorage (si présent)
-    const savedLikes = window.localStorage.getItem(`likes-${mediaId}`);
+    // Récupérer état actuel depuis localStorage
+    let liked = window.localStorage.getItem(`liked-${mediaId}`) === 'true';
 
-    let liked = false; // état (liké ou non)
-
-    // Si des likes étaient déjà sauvegardés -> on les restaure
-    if (savedLikes) {
-      btn.querySelector('.like-count').textContent = savedLikes;
-      liked = true; // déjà aimé
+    if (!liked) {
+      count += 1; // incrémenter
+      liked = true;
+      btn.setAttribute('aria-pressed', 'true');
+    } else {
+      count -= 1; // décrémenter
+      liked = false;
+      btn.setAttribute('aria-pressed', 'false');
     }
 
-    btn.addEventListener('click', () => {
-      const countEl = btn.querySelector('.like-count');
-      let count = parseInt(countEl.textContent, 10);
+    // Màj compteur sur bouton
+    countEl.textContent = count;
 
-      if (!liked) {
-        // Si média pas déjà aimé ->
-        count += 1; // incrémenter
-        totalLikes += 1; // màj total global
-        liked = true;
-        btn.setAttribute('aria-pressed', 'true'); // accessibilité
-      } else {
-        // Si déjà aimé ->
-        count -= 1; // décrémenter
-        totalLikes -= 1;
-        liked = false;
-        btn.setAttribute('aria-pressed', 'false');
-      }
+    // Màj total global likes
+    let totalLikes = Array.from(
+      document.querySelectorAll('.like-count'),
+    ).reduce((sum, el) => sum + parseInt(el.textContent, 10), 0);
+    likesEl.textContent = `${totalLikes} ❤`;
 
-      // Màj affichage compteur
-      countEl.textContent = count;
-      likesEl.textContent = `${totalLikes} ❤`;
+    // Sauvegarde état dans localStorage
+    window.localStorage.setItem(`likes-${mediaId}`, count);
+    window.localStorage.setItem(`liked-${mediaId}`, liked);
+  });
 
-      // Sauvegarde nouveau nombre de likes dans localStorage
-      window.localStorage.setItem(`likes-${mediaId}`, count);
-    });
-
-    // Support clavier Entrer ou Espace
-    btn.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
+  // Support clavier pour tous les likes (délégation aussi)
+  gallery.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      const btn = e.target.closest('.like-button');
+      if (btn) {
         e.preventDefault();
         btn.click();
       }
-    });
+    }
   });
 
   // ---- 2.6 - Lightbox ----
@@ -138,8 +132,6 @@ async function init() {
   const mediaItems = document.querySelectorAll(
     '.media-item img, .media-item video',
   );
-  // console.log(mediaItems); // Vérification console
-
   let currentIndex = 0; // Index média affiché dans lightbox
 
   // --- Fonction affichage média dans lightbox ---
@@ -148,8 +140,6 @@ async function init() {
     if (!media) return; // sécurité si index invalide
 
     const clone = media.cloneNode(true); // clone pour ne pas déplacer l'original
-
-    // Si média = vidéo, ajout contrôles + aria-label
     if (clone.tagName === 'VIDEO') {
       clone.setAttribute('controls', 'true');
       clone.setAttribute(
@@ -158,11 +148,11 @@ async function init() {
       );
     }
 
-    lightboxContent.innerHTML = ''; // vider contenu actuel
-    lightboxContent.appendChild(clone); // afficher média cloné
-    lightbox.classList.add('show'); // montrer lightbox
+    lightboxContent.innerHTML = '';
+    lightboxContent.appendChild(clone);
+    lightbox.classList.add('show');
     lightbox.setAttribute('aria-hidden', 'false');
-    // Affichage du titre en bas
+
     const title = document.createElement('div');
     title.classList.add('lightbox-title');
     title.textContent = media.dataset.title || '';
@@ -172,61 +162,50 @@ async function init() {
   // --- Ouvrir lightbox au clic sur un média ---
   mediaItems.forEach((media, index) => {
     media.addEventListener('click', () => {
-      currentIndex = index; // maj index actuel
+      currentIndex = index;
       showMedia(currentIndex);
     });
   });
 
   // --- Fermer lightbox ---
   closeBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // éviter que le clic remonte à l'overlay
+    e.stopPropagation();
     lightbox.classList.remove('show');
     lightbox.setAttribute('aria-hidden', 'true');
     lightboxContent.innerHTML = '';
   });
 
-  // --- Fermer lightbox en cliquant sur l'overlay ---
   lightbox.addEventListener('click', () => {
     lightbox.classList.remove('show');
     lightbox.setAttribute('aria-hidden', 'true');
     lightboxContent.innerHTML = '';
   });
 
-  // --- Empêcher fermeture lors du clic sur le contenu ---
   lightboxContent.addEventListener('click', (e) => {
     e.stopPropagation();
   });
 
-  // --- Navigation clavier dans la lightbox ---
+  // --- Navigation clavier dans lightbox ---
   document.addEventListener('keydown', (e) => {
-    // Ignorer si la lightbox est fermée
     if (!lightbox.classList.contains('show')) return;
 
     switch (e.key) {
       case 'Escape':
-        // Fermer lightbox avec Échap
         lightbox.classList.remove('show');
         lightbox.setAttribute('aria-hidden', 'true');
         lightboxContent.innerHTML = '';
         break;
-
       case 'ArrowRight':
-        // Média suivant
         currentIndex = (currentIndex + 1) % mediaItems.length;
         showMedia(currentIndex);
         break;
-
       case 'ArrowLeft':
-        // Média précédent
         currentIndex =
           (currentIndex - 1 + mediaItems.length) % mediaItems.length;
         showMedia(currentIndex);
         break;
-
       default:
-        // Ignorer les autres touches
-        // Règle "default-case"
-        break;
+        break; // règle "default-case"
     }
   });
 
@@ -234,9 +213,8 @@ async function init() {
   const prevBtn = lightbox.querySelector('.lightbox-prev');
   const nextBtn = lightbox.querySelector('.lightbox-next');
 
-  // Clic boutons
   prevBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // éviter propagation au clic sur overlay
+    e.stopPropagation();
     currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
     showMedia(currentIndex);
   });
@@ -247,10 +225,9 @@ async function init() {
     showMedia(currentIndex);
   });
 
-  // Navigation clavier sur boutons
   prevBtn.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault(); // éviter scroll page
+      e.preventDefault();
       prevBtn.click();
     }
   });
@@ -262,40 +239,30 @@ async function init() {
     }
   });
 
-  // ---- 2.7 - Dropdown tri (dans init pour avoir accès à gallerie et medias) ----
+  // ---- 2.7 - Dropdown tri ----
   const button = document.getElementById('dropdownButton');
   const list = document.getElementById('myDropdown');
   const options = list.querySelectorAll('li');
 
-  // Ouvrir / fermer le menu
   button.addEventListener('click', () => {
     const expanded = button.getAttribute('aria-expanded') === 'true';
     button.setAttribute('aria-expanded', String(!expanded));
     list.classList.toggle('show');
   });
 
-  // Clic option tri
   options.forEach((option) => {
     option.addEventListener('click', () => {
       const selectedText = option.innerText;
-      console.log('Critère choisi :', selectedText);
-      console.log('Tableau des médias filtré :', medias);
 
       // --- Tri selon l'option ---
-      if (selectedText === 'Date') {
-        // Tri décroissant date
+      if (selectedText === 'Date')
         medias.sort((a, b) => new Date(b.date) - new Date(a.date));
-      }
-      if (selectedText === 'Popularité') {
-        // Tri décroissant likes
+      if (selectedText === 'Popularité')
         medias.sort((a, b) => b.likes - a.likes);
-      }
-      if (selectedText === 'Titre') {
-        // Tri alphabétique, insensible à la casse
+      if (selectedText === 'Titre')
         medias.sort((a, b) =>
           a.title.toLowerCase().localeCompare(b.title.toLowerCase()),
         );
-      }
 
       // --- Recréation galerie après tri ---
       gallery.innerHTML = '';
@@ -318,7 +285,6 @@ async function init() {
     });
   });
 
-  // Fermer menu si clic extérieur
   window.addEventListener('click', (event) => {
     if (!event.target.closest('.dropdown-wrapper')) {
       button.setAttribute('aria-expanded', 'false');
@@ -330,5 +296,4 @@ async function init() {
 }
 
 // 3 - Lancement
-
 init();
