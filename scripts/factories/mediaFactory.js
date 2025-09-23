@@ -8,37 +8,36 @@ export function mediaFactory(media, photographerFolder) {
   let mediaElement;
   let isVideo = false;
 
-  // --- Création du média - image / vidéo ---
+  // --- Création du média ---
   if (media.image) {
     // Image
     mediaElement = document.createElement('img');
     mediaElement.src = `assets/Sample Photos/${folderName}/${media.image}`;
-    mediaElement.alt = media.title; // Pour accessibilité
-    mediaElement.setAttribute('loading', 'lazy'); // Lazy load
-    mediaElement.tabIndex = 0; // Navigation clavier
+    mediaElement.alt = media.title; // accessibilité
+    mediaElement.setAttribute('loading', 'lazy'); // lazy load
+    mediaElement.tabIndex = 0; // focusable dans galerie
   } else if (media.video) {
     // Vidéo
     isVideo = true;
     mediaElement = document.createElement('video');
     mediaElement.src = `assets/Sample Photos/${folderName}/${media.video}`;
-    mediaElement.setAttribute('aria-label', media.title); // Accessibilité
+    mediaElement.setAttribute('aria-label', media.title);
     mediaElement.setAttribute('loading', 'lazy');
     mediaElement.preload = 'metadata';
-    mediaElement.muted = true; // Lecture silencieuse si autoplay
-    mediaElement.removeAttribute('controls'); // Pas de lecture directe
-    mediaElement.tabIndex = -1; // Focus bouton ou conteneur
+    mediaElement.muted = true;
+    mediaElement.removeAttribute('controls'); // pas focusable dans galerie
+    mediaElement.tabIndex = -1;
   }
 
-  // --- Ajout data-title pour la lightbox ---
   mediaElement.dataset.title = media.title;
 
-  // --- Conteneur overlay play si vidéo ---
+  // --- Conteneur média ---
   const mediaContainer = document.createElement('div');
   mediaContainer.classList.add('media-container');
   mediaContainer.appendChild(mediaElement);
 
   if (isVideo) {
-    // Bouton play overlay pour vidéo
+    // Bouton play overlay
     const playBtn = document.createElement('button');
     playBtn.classList.add('video-play-button');
     playBtn.setAttribute('aria-label', `Lire ${media.title}`);
@@ -47,10 +46,11 @@ export function mediaFactory(media, photographerFolder) {
         <polygon points="16,12 16,52 48,32" fill="#ffffff"/>
       </svg>
     `;
-    playBtn.tabIndex = 0; // Focus clavier
+    playBtn.tabIndex = 0; // focusable
+
     mediaContainer.appendChild(playBtn);
 
-    // Ouverture lightbox
+    // Ouvrir lightbox avec vidéo
     playBtn.addEventListener('click', () =>
       openLightbox(mediaElement.cloneNode(true)),
     );
@@ -61,12 +61,12 @@ export function mediaFactory(media, photographerFolder) {
       }
     });
 
-    // Clic sur l’image/vidéo pour ouvrir la lightbox
+    // Clic sur vidéo pour ouvrir lightbox
     mediaElement.addEventListener('click', () =>
       openLightbox(mediaElement.cloneNode(true)),
     );
   } else {
-    // Image : clic ou clavier pour ouvrir lightbox
+    // Image : clic ou clavier pour lightbox
     mediaElement.addEventListener('click', () =>
       openLightbox(mediaElement.cloneNode(true)),
     );
@@ -82,38 +82,30 @@ export function mediaFactory(media, photographerFolder) {
   const mediaFooter = document.createElement('div');
   mediaFooter.classList.add('media-footer');
 
-  // Titre du média
   const titleEl = document.createElement('h2');
   titleEl.textContent = media.title;
 
-  // Bouton Like
   const likeButton = document.createElement('button');
   likeButton.classList.add('like-button');
   likeButton.setAttribute('aria-label', `Aimer ${media.title}`);
-  // Contenu du bouton : nombre de likes + cœur
   likeButton.innerHTML = `<span class="like-count">${media.likes}</span> ❤`;
-
-  // Ajout id unique / bouton pour lier le bouton à son média pour stockage localStorage
   likeButton.dataset.id = media.id;
 
-  // Assemblage  footer
   mediaFooter.append(titleEl, likeButton);
-
-  // --- Assemblage final article ---
   article.append(mediaContainer, mediaFooter);
 
   return article;
 }
 
-// --- Fonction ouverture lightbox ---
+// --- Lightbox ---
 function openLightbox(clone) {
   const lightbox = document.getElementById('lightbox');
   const content = lightbox.querySelector('.lightbox-content');
 
-  // Si vidéo -> ajout controles & lecture automatique
   if (clone.tagName === 'VIDEO') {
     clone.setAttribute('controls', '');
     clone.autoplay = true;
+    clone.tabIndex = 0; // vidéo focusable dans lightbox
   }
 
   content.innerHTML = '';
@@ -129,10 +121,11 @@ function openLightbox(clone) {
 
   // Bouton close
   const closeBtn = lightbox.querySelector('.lightbox-close');
+  closeBtn.focus(); // focus sur fermeture lightbox
   closeBtn.addEventListener('click', closeLightbox);
 }
 
-// --- Fonction fermeture lightbox ---
+// --- Fermer lightbox ---
 function closeLightbox() {
   const lightbox = document.getElementById('lightbox');
   const content = lightbox.querySelector('.lightbox-content');

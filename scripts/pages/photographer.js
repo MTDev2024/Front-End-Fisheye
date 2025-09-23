@@ -1,31 +1,23 @@
 // Import modules
-import { photographerTemplate } from '../templates/photographer.js'; // Template pour photographe
+import { photographerTemplate } from '../templates/photographer.js';
 import { getData } from '../utils/api.js';
 import { mediaFactory } from '../factories/mediaFactory.js';
 
 // 1 - Variables globales
-
-// Stocke tous les médias du JSON
-let allMedia = [];
-
-// Médias filtrés du photographe courant
-let medias = [];
-
-// Galerie photographe courant (déclarée ici pour être accessible depuis le tri)
-let gallery;
+let allMedia = []; // Tous les médias du JSON
+let medias = []; // Médias filtrés pour le photographe courant
+let gallery; // Galerie photographe courant
 
 // 2 - Fonction principale init()
 async function init() {
-  // ---- 2.1 - Récupération des données ----
-  const data = await getData(); // récupération du JSON
-  const { photographers } = data; // tableau de tous les photographes
-  allMedia = data.media; // tableau de tous les médias
+  // ---- 2.1 - Récupération données ----
+  const data = await getData();
+  const { photographers } = data;
+  allMedia = data.media;
 
-  // Récupération id photographe depuis URL
   const params = new URLSearchParams(window.location.search);
-  const id = parseInt(params.get('id'), 10); // Convertir en nombre
+  const id = parseInt(params.get('id'), 10); // ID photographe
 
-  // Trouver photographe correspondant
   const photographer = photographers.find((p) => p.id === id);
   if (!photographer) {
     console.error('Photographe introuvable');
@@ -36,21 +28,15 @@ async function init() {
   const header = document.querySelector('.photograph-header');
   header.appendChild(photographerTemplate(photographer).getUserHeaderDOM());
 
-  // Injecter nom photographe modale contact
   const nameP = document.getElementById('photographer-name');
-  if (nameP) {
-    nameP.textContent = photographer.name;
-    // console.log(`Nom photographe injecté dans modale : ${photographer.name}`);
-  }
+  if (nameP) nameP.textContent = photographer.name;
 
   // ---- 2.3 - Galerie ----
   gallery = document.querySelector('.photograph-gallery');
-  gallery.innerHTML = ''; // Reset galerie avant ajout médias
+  gallery.innerHTML = '';
 
-  // Filtrer médias photographe courant
   medias = allMedia.filter((m) => m.photographerId === id);
 
-  // Afficher chaque média
   medias.forEach((m) => {
     gallery.appendChild(mediaFactory(m, photographer.folder));
   });
@@ -59,13 +45,11 @@ async function init() {
   const container = document.querySelector('.container');
   container.innerHTML = '';
 
-  // Bloc total likes
   const likesEl = document.createElement('div');
   likesEl.classList.add('likes');
   const totalLikes = medias.reduce((sum, m) => sum + m.likes, 0);
   likesEl.textContent = `${totalLikes} ❤`;
 
-  // Bloc prix (TJM)
   const priceContainer = document.createElement('div');
   priceContainer.classList.add('tjm');
   const priceElt = document.createElement('div');
@@ -75,45 +59,40 @@ async function init() {
 
   container.append(likesEl, priceContainer);
 
-  // ---- 2.5 - Gestion likes / média (délégation d'événements / bubbling) ----
-  // Listener sur le parent "gallery" pour tous les likes
+  // ---- 2.5 - Gestion likes / event delegation ----
   gallery.addEventListener('click', (e) => {
-    const btn = e.target.closest('.like-button'); // vérifie si clic sur like ou icône à l'intérieur
+    const btn = e.target.closest('.like-button');
     if (!btn) return;
 
     const mediaId = btn.dataset.id;
     const countEl = btn.querySelector('.like-count');
     let count = parseInt(countEl.textContent, 10);
 
-    // Récupérer état actuel depuis localStorage
     let liked = window.localStorage.getItem(`liked-${mediaId}`) === 'true';
 
     if (!liked) {
-      count += 1; // incrémenter
+      count += 1;
       liked = true;
       btn.setAttribute('aria-pressed', 'true');
     } else {
-      count -= 1; // décrémenter
+      count -= 1;
       liked = false;
       btn.setAttribute('aria-pressed', 'false');
     }
 
-    // Màj compteur sur bouton
     countEl.textContent = count;
 
-    // Màj total global likes
-    // eslint-disable-next-line prefer-const
-    let totalLikes = Array.from(
+    // Recalcul total likes
+    const totalLikes = Array.from(
       document.querySelectorAll('.like-count'),
     ).reduce((sum, el) => sum + parseInt(el.textContent, 10), 0);
     likesEl.textContent = `${totalLikes} ❤`;
 
-    // Sauvegarde état dans localStorage
     window.localStorage.setItem(`likes-${mediaId}`, count);
     window.localStorage.setItem(`liked-${mediaId}`, liked);
   });
 
-  // Support clavier pour tous les likes (délégation aussi)
+  // Support clavier pour likes
   gallery.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       const btn = e.target.closest('.like-button');
@@ -128,41 +107,47 @@ async function init() {
   const lightbox = document.getElementById('lightbox');
   const lightboxContent = lightbox.querySelector('.lightbox-content');
   const closeBtn = lightbox.querySelector('.lightbox-close');
+  const prevBtn = lightbox.querySelector('.lightbox-prev');
+  const nextBtn = lightbox.querySelector('.lightbox-next');
 
-  // Sélection de tous les médias visibles (images + vidéos)
+  let currentIndex = 0;
   const mediaItems = document.querySelectorAll(
     '.media-item img, .media-item video',
   );
-  let currentIndex = 0; // Index média affiché dans lightbox
 
-  // --- Fonction affichage média dans lightbox ---
   function showMedia(index) {
     const media = mediaItems[index];
-    if (!media) return; // sécurité si index invalide
+    if (!media) return;
 
-    const clone = media.cloneNode(true); // clone pour ne pas déplacer l'original
+    // Clone pour lightbox
+    const clone = media.cloneNode(true);
+
+    // Si vidéo : controls et focusable
     if (clone.tagName === 'VIDEO') {
       clone.setAttribute('controls', 'true');
+      clone.tabIndex = 0;
       clone.setAttribute(
         'aria-label',
-        media.alt || media.getAttribute('aria-label') || 'Vidéo',
+        media.alt || media.dataset.title || 'Vidéo',
       );
     }
 
     lightboxContent.innerHTML = '';
     lightboxContent.appendChild(clone);
-    lightbox.classList.add('show');
-    lightbox.setAttribute('aria-hidden', 'false');
 
     const title = document.createElement('div');
     title.classList.add('lightbox-title');
     title.textContent = media.dataset.title || '';
     lightboxContent.appendChild(title);
-    // Focus automatique close
+
+    lightbox.classList.add('show');
+    lightbox.setAttribute('aria-hidden', 'false');
+
+    // Focus automatique sur bouton close
     closeBtn.focus();
   }
 
-  // --- Ouvrir lightbox au clic sur un média ---
+  // Ouvrir lightbox
   mediaItems.forEach((media, index) => {
     media.addEventListener('click', () => {
       currentIndex = index;
@@ -170,33 +155,28 @@ async function init() {
     });
   });
 
-  // --- Fermer lightbox ---
+  // Fermeture lightbox
+  function closeLightbox() {
+    lightbox.classList.remove('show');
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightboxContent.innerHTML = '';
+  }
+
   closeBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    lightbox.classList.remove('show');
-    lightbox.setAttribute('aria-hidden', 'true');
-    lightboxContent.innerHTML = '';
+    closeLightbox();
   });
 
-  lightbox.addEventListener('click', () => {
-    lightbox.classList.remove('show');
-    lightbox.setAttribute('aria-hidden', 'true');
-    lightboxContent.innerHTML = '';
-  });
+  lightbox.addEventListener('click', closeLightbox);
+  lightboxContent.addEventListener('click', (e) => e.stopPropagation());
 
-  lightboxContent.addEventListener('click', (e) => {
-    e.stopPropagation();
-  });
-
-  // --- Navigation clavier dans lightbox ---
+  // Navigation clavier (Escape / flèches)
   document.addEventListener('keydown', (e) => {
     if (!lightbox.classList.contains('show')) return;
 
     switch (e.key) {
       case 'Escape':
-        lightbox.classList.remove('show');
-        lightbox.setAttribute('aria-hidden', 'true');
-        lightboxContent.innerHTML = '';
+        closeLightbox();
         break;
       case 'ArrowRight':
         currentIndex = (currentIndex + 1) % mediaItems.length;
@@ -208,38 +188,29 @@ async function init() {
         showMedia(currentIndex);
         break;
       default:
-        break; // règle "default-case"
+        break;
     }
   });
 
-  // --- Navigation avec boutons flèches ---
-  const prevBtn = lightbox.querySelector('.lightbox-prev');
-  const nextBtn = lightbox.querySelector('.lightbox-next');
-
-  prevBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
+  // Navigation avec boutons flèches
+  prevBtn.addEventListener('click', () => {
     currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
     showMedia(currentIndex);
   });
-
-  nextBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
+  nextBtn.addEventListener('click', () => {
     currentIndex = (currentIndex + 1) % mediaItems.length;
     showMedia(currentIndex);
   });
 
-  prevBtn.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      prevBtn.click();
-    }
-  });
-
-  nextBtn.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      nextBtn.click();
-    }
+  // Support clavier pour boutons flèches
+  [prevBtn, nextBtn].forEach((btn) => {
+    btn.tabIndex = 0; // Assure focus
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        btn.click();
+      }
+    });
   });
 
   // ---- 2.7 - Dropdown tri ----
@@ -257,7 +228,6 @@ async function init() {
     option.addEventListener('click', () => {
       const selectedText = option.innerText;
 
-      // --- Tri selon l'option ---
       if (selectedText === 'Date')
         medias.sort((a, b) => new Date(b.date) - new Date(a.date));
       if (selectedText === 'Popularité')
@@ -267,22 +237,18 @@ async function init() {
           a.title.toLowerCase().localeCompare(b.title.toLowerCase()),
         );
 
-      // --- Recréation galerie après tri ---
       gallery.innerHTML = '';
       medias.forEach((m) =>
         gallery.appendChild(mediaFactory(m, photographer.folder)),
       );
 
-      // --- Màj texte bouton ---
       const img = button.querySelector('img');
       button.textContent = selectedText;
       button.appendChild(img);
 
-      // --- Accessibilité ---
       options.forEach((opt) => opt.setAttribute('aria-selected', 'false'));
       option.setAttribute('aria-selected', 'true');
 
-      // Fermer menu
       button.setAttribute('aria-expanded', 'false');
       list.classList.remove('show');
     });
