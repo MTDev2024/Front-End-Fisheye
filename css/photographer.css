@@ -432,7 +432,6 @@ form textarea {
   align-items: center;
   background: #ffffff;
   z-index: 2000;
-  border: solid 2px green;
 }
 
 .lightbox.show {
@@ -445,9 +444,8 @@ form textarea {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f4f0f0;
+  background: white;
   overflow: hidden;
-  border: 2px solid yellow;
 }
 
 .lightbox-content img,
@@ -464,8 +462,12 @@ form textarea {
   fill: #901c1c;
 }
 
-.lightbox button:focus {
-  outline: 3px solid blue;
+.lightbox-close:focus,
+.lightbox-prev:focus,
+.lightbox-next:focus {
+  outline: 2px solid #db8876;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 .lightbox-close,

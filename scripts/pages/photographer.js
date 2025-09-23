@@ -62,7 +62,7 @@ async function init() {
   // Bloc total likes
   const likesEl = document.createElement('div');
   likesEl.classList.add('likes');
-  let totalLikes = medias.reduce((sum, m) => sum + m.likes, 0);
+  const totalLikes = medias.reduce((sum, m) => sum + m.likes, 0);
   likesEl.textContent = `${totalLikes} ❤`;
 
   // Bloc prix (TJM)
@@ -158,6 +158,8 @@ async function init() {
     title.classList.add('lightbox-title');
     title.textContent = media.dataset.title || '';
     lightboxContent.appendChild(title);
+    // Focus automatique close
+    closeBtn.focus();
   }
 
   // --- Ouvrir lightbox au clic sur un média ---
