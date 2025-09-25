@@ -93,13 +93,16 @@ function handleLikeClick(e) {
     btn.setAttribute('aria-pressed', 'false');
   }
 
-  countEl.textContent = count;
+  countEl.textContent = count; // met à jour l'affichage du compteur
 
   // Recalculer total likes
   const totalLikesEl = document.querySelector('.likes');
   const totalLikes = Array.from(
     document.querySelectorAll('.like-count'),
-  ).reduce((sum, el) => sum + parseInt(el.textContent, 10), 0);
+  ).reduce(
+    (sum, el) => sum + parseInt(el.textContent, 10), // somme de tous les nombres
+    0,
+  ); // valeur originelle de la somme
   totalLikesEl.textContent = `${totalLikes} ❤`;
 
   // Sauvegarde état like
@@ -112,8 +115,8 @@ function handleLikeKeydown(e) {
   if (e.key === 'Enter' || e.key === ' ') {
     const btn = e.target.closest('.like-button');
     if (btn) {
-      e.preventDefault();
-      btn.click();
+      e.preventDefault(); // empêche le scroll si appui sur Espace
+      btn.click(); // simule un clic
     }
   }
 }
@@ -121,13 +124,16 @@ function handleLikeKeydown(e) {
 // --- Affichage encart likes + prix ---
 function setupLikesAndPrice() {
   const container = document.querySelector('.container');
-  container.innerHTML = '';
+  container.innerHTML = ''; // vidage conteneur avant remplissage
 
+  // Création compteur total de likes
   const likesEl = document.createElement('div');
   likesEl.classList.add('likes');
   const totalLikes = medias.reduce((sum, m) => sum + m.likes, 0);
+  // reduce = addition des likes des médias (sum part de 0)
   likesEl.textContent = `${totalLikes} ❤`;
 
+  // Création affichage tjm
   const priceContainer = document.createElement('div');
   priceContainer.classList.add('tjm');
   const priceElt = document.createElement('div');
@@ -135,6 +141,7 @@ function setupLikesAndPrice() {
   priceElt.classList.add('photographer-price');
   priceContainer.appendChild(priceElt);
 
+  // Ajout des éléments au DOM
   container.append(likesEl, priceContainer);
 }
 
@@ -152,21 +159,21 @@ function setupLightbox() {
       '.media-item img, .media-item video',
     );
     const media = mediaItems[index];
-    if (!media) return;
+    if (!media) return; // si index invalide -> stop
     currentIndex = index;
 
     // Clonage média
     const clone = media.cloneNode(true);
     if (clone.tagName === 'VIDEO') {
-      clone.setAttribute('controls', 'true');
-      clone.tabIndex = 0;
+      clone.setAttribute('controls', 'true'); // Ajout contrôles
+      clone.tabIndex = 0; // Focusable
       clone.setAttribute(
         'aria-label',
-        media.alt || media.dataset.title || 'Vidéo',
+        media.alt || media.dataset.title || 'Vidéo', // Alt
       );
     }
 
-    content.innerHTML = '';
+    content.innerHTML = ''; // Vidage contenu avant ajout
     content.appendChild(clone);
 
     const title = document.createElement('div');
@@ -185,12 +192,12 @@ function setupLightbox() {
   function closeLightbox() {
     lightbox.classList.remove('show');
     lightbox.setAttribute('aria-hidden', 'true');
-    content.innerHTML = '';
+    content.innerHTML = ''; // vidage contenu
   }
 
   // Navigation boutons (clic souris + clavier)
   [prevBtn, nextBtn, closeBtn].forEach((btn) => {
-    btn.tabIndex = 0; // focus possible
+    btn.tabIndex = 0; // Focusable
     btn.addEventListener('click', () => {
       if (btn === prevBtn)
         showLightbox((currentIndex - 1 + medias.length) % medias.length);
@@ -199,15 +206,15 @@ function setupLightbox() {
     });
     btn.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        btn.click();
+        e.preventDefault(); // empêche le scroll si appui sur Espace
+        btn.click(); // Simule un clic
       }
     });
   });
 
   // Navigation clavier globale (flèches + Échap)
   document.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('show')) return;
+    if (!lightbox.classList.contains('show')) return; // si pas ouverte, on ignore
     switch (e.key) {
       case 'Escape':
         closeLightbox();
