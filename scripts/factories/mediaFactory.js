@@ -1,6 +1,3 @@
-// --- mediaFactory.js ---
-// Crée un article média (image ou vidéo) avec likes et accessibilité
-
 export function mediaFactory(media, photographerFolder) {
   // --- Création article ---
   const article = document.createElement('article');

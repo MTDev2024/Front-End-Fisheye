@@ -1,3 +1,18 @@
+/* Harmoniser tous les focus sur boutons et liens */
+button:focus,
+a:focus,
+img[tabindex='0']:focus,
+video[tabindex='0']:focus {
+  outline: 2px solid #db8876;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.media-container img,
+.media-container video {
+  cursor: pointer;
+}
+
 #contact_modal {
   position: fixed;
   top: 0;
@@ -293,11 +308,6 @@ form textarea {
   cursor: pointer;
 }
 
-.Dropdown li button:hover,
-.Dropdown li button:focus {
-  background-color: rgba(144, 28, 28, 0.85);
-}
-
 .Dropdown li + li::before {
   content: '';
   position: absolute;
@@ -401,10 +411,13 @@ form textarea {
   transition: background-color 0.3s ease;
 }
 
-.video-play-button:hover,
-.video-play-button:focus {
+.video-play-button:hover {
   background-color: rgba(0, 0, 0, 0.8);
   outline: none;
+}
+
+.Dropdown li button:hover {
+  background-color: rgba(144, 28, 28, 0.85);
 }
 
 /* Vidéo en miniature */
@@ -460,14 +473,6 @@ form textarea {
   width: 40px;
   height: 40px;
   fill: #901c1c;
-}
-
-.lightbox-close:focus,
-.lightbox-prev:focus,
-.lightbox-next:focus {
-  outline: 2px solid #db8876;
-  outline-offset: 2px;
-  border-radius: 4px;
 }
 
 .lightbox-close,

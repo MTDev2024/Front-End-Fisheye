@@ -192,7 +192,7 @@ function setupLightbox() {
   function closeLightbox() {
     lightbox.classList.remove('show');
     lightbox.setAttribute('aria-hidden', 'true');
-    content.innerHTML = ''; // vidage contenu
+    content.innerHTML = ''; // Vidage contenu
   }
 
   // Navigation boutons (clic souris + clavier)
@@ -244,7 +244,7 @@ function setupDropdown() {
   // Ouvrir / fermer dropdown
   button.addEventListener('click', () => {
     const expanded = button.getAttribute('aria-expanded') === 'true';
-    button.setAttribute('aria-expanded', String(!expanded));
+    button.setAttribute('aria-expanded', String(!expanded)); // inverser état
     list.classList.toggle('show');
   });
 
@@ -285,7 +285,7 @@ function setupDropdown() {
       article.addEventListener('openLightbox', (e) => {
         const mediaId = e.detail;
         const index = medias.findIndex((m) => m.id == mediaId);
-        window.showLightbox(index); // ✅ corrigé
+        window.showLightbox(index);
       });
       gallery.appendChild(article);
     });
