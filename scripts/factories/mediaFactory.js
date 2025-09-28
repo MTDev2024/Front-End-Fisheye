@@ -1,23 +1,26 @@
+// Médias focusables -> ouvrent lightbox avec clic / Entrée / Espace.
 export function mediaFactory(media, photographerFolder) {
-  // --- Création article ---
+  // --- Article conteneur ---
   const article = document.createElement('article');
   article.classList.add('media-item');
+  // PAS de tabIndex article -> focus sur média lui-même
 
+  // encodeURIComponent : sécurise les valeurs d’URL en remplaçant espaces et caractères spéciaux
   const folderName = encodeURIComponent(photographerFolder);
 
   let mediaElement;
   let isVideo = false;
 
-  // --- Création du média ---
+  // --- Création média (img / video) ---
   if (media.image) {
-    // Image
     mediaElement = document.createElement('img');
     mediaElement.src = `assets/Sample Photos/${folderName}/${media.image}`;
-    mediaElement.alt = media.title; // Accessibilité
-    mediaElement.setAttribute('loading', 'lazy'); // Lazy load
-    mediaElement.tabIndex = 0; // Focusable dans la galerie
+    mediaElement.alt = media.title;
+    mediaElement.setAttribute('loading', 'lazy');
+    mediaElement.tabIndex = 0;
+    mediaElement.setAttribute('role', 'button');
+    mediaElement.setAttribute('aria-label', `${media.title} — Ouvrir en grand`);
   } else if (media.video) {
-    // Vidéo
     isVideo = true;
     mediaElement = document.createElement('video');
     mediaElement.src = `assets/Sample Photos/${folderName}/${media.video}`;
@@ -25,18 +28,21 @@ export function mediaFactory(media, photographerFolder) {
     mediaElement.setAttribute('loading', 'lazy');
     mediaElement.preload = 'metadata';
     mediaElement.muted = true;
-    mediaElement.tabIndex = 0; // Focusable
+    mediaElement.tabIndex = 0;
+    mediaElement.setAttribute('role', 'button');
+    mediaElement.setAttribute('aria-label', `${media.title} — Ouvrir en grand`);
   }
 
+  // Données pour lightbox
   mediaElement.dataset.title = media.title;
   mediaElement.dataset.id = media.id;
 
-  // --- Conteneur média ---
+  // --- Conteneur du média ---
   const mediaContainer = document.createElement('div');
   mediaContainer.classList.add('media-container');
   mediaContainer.appendChild(mediaElement);
 
-  // --- Bouton play overlay pour vidéo ---
+  // --- Si vidéo : ajouter bouton play overlay ---
   if (isVideo) {
     const playBtn = document.createElement('button');
     playBtn.classList.add('video-play-button');
@@ -46,17 +52,14 @@ export function mediaFactory(media, photographerFolder) {
         <polygon points="16,12 16,52 48,32" fill="#ffffff"/>
       </svg>
     `;
-    playBtn.tabIndex = 0; // Focusable
-
+    playBtn.tabIndex = 0;
     mediaContainer.appendChild(playBtn);
 
-    // Fonction émettre événement openLightbox
     const openEvent = () => {
       const event = new CustomEvent('openLightbox', { detail: media.id });
       article.dispatchEvent(event);
     };
 
-    // Clic ou clavier sur vidéo
     mediaElement.addEventListener('click', openEvent);
     mediaElement.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -65,7 +68,6 @@ export function mediaFactory(media, photographerFolder) {
       }
     });
 
-    // Clic ou clavier sur bouton play
     playBtn.addEventListener('click', openEvent);
     playBtn.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -74,11 +76,11 @@ export function mediaFactory(media, photographerFolder) {
       }
     });
   } else {
-    // --- Image : clic ou clavier pour lightbox ---
     const openEvent = () => {
       const event = new CustomEvent('openLightbox', { detail: media.id });
       article.dispatchEvent(event);
     };
+
     mediaElement.addEventListener('click', openEvent);
     mediaElement.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -88,7 +90,15 @@ export function mediaFactory(media, photographerFolder) {
     });
   }
 
-  // --- Footer média : titre + bouton like ---
+  // --- Classe .focused sur l'article pour fallback si besoin ---
+  mediaElement.addEventListener('focus', () =>
+    article.classList.add('focused'),
+  );
+  mediaElement.addEventListener('blur', () =>
+    article.classList.remove('focused'),
+  );
+
+  // --- Footer du média (titre + like button) ---
   const mediaFooter = document.createElement('div');
   mediaFooter.classList.add('media-footer');
 
@@ -103,6 +113,8 @@ export function mediaFactory(media, photographerFolder) {
   likeButton.dataset.id = media.id;
 
   mediaFooter.append(titleEl, likeButton);
+
+  // Assemblage final
   article.append(mediaContainer, mediaFooter);
 
   return article;

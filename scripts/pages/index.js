@@ -5,7 +5,7 @@ async function getPhotographers() {
   // Chargement JSON
   const reponse = await fetch('data/photographers.json');
   const data = await reponse.json();
-  console.log(data); // Affichage contenu du JSON
+  // console.log(data); // Affichage contenu du JSON
 
   // Retourne uniquement tableau photographes
   return {

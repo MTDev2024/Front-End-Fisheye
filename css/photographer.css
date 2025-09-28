@@ -1,8 +1,33 @@
-/* Harmoniser tous les focus sur boutons et liens */
+/* Si un enfant de .media-item focus -> afficher outline sur le conteneur */
+.media-item:has(img:focus),
+.media-item:has(video:focus) {
+  outline: 4px solid #db8876;
+  /* outline-offset: 2px; */
+  border-radius: 8px;
+}
+
+.media-item:has(img:hover),
+.media-item:has(video:hover) {
+  outline: 4px solid #db8876;
+  /* outline-offset: 2px; */
+  border-radius: 8px;
+}
+
+/* Focus bouton like */
+.like-button:focus {
+  outline: 4px solid #db8876;
+  /* outline-offset: 2px; */
+  border-radius: 5px;
+}
+
+.like-button:hover {
+  outline: 4px solid #db8876;
+  border-radius: 5px;
+}
+
+/* Harmoniser focus sur boutons & liens */
 button:focus,
-a:focus,
-img[tabindex='0']:focus,
-video[tabindex='0']:focus {
+a:focus {
   outline: 2px solid #db8876;
   outline-offset: 2px;
   border-radius: 4px;
@@ -11,6 +36,12 @@ video[tabindex='0']:focus {
 .media-container img,
 .media-container video {
   cursor: pointer;
+}
+
+.media-item:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px #db8876;
+  border-radius: 8px;
 }
 
 #contact_modal {

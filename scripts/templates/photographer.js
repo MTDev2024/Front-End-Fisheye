@@ -39,7 +39,6 @@ export function photographerTemplate(data) {
   }
 
   // Création header page photographe
-  // Crée le header pour la page photographe
   function getUserHeaderDOM() {
     const heroContainer = document.createElement('div');
     heroContainer.classList.add('photograph-hero');
@@ -47,7 +46,7 @@ export function photographerTemplate(data) {
     const infoContainer = document.createElement('div');
     infoContainer.classList.add('photograph-info');
 
-    // Nom du photographe
+    // Nom photographe
     const h1 = document.createElement('h1');
     h1.textContent = name;
     h1.classList.add('photograph-name');
@@ -76,7 +75,7 @@ export function photographerTemplate(data) {
     portraitImg.alt = name;
     portraitImg.classList.add('photograph-portrait');
 
-    // 👉 Ordre demandé : infos → bouton → portrait
+    // Ordre : infos → bouton → portrait
     heroContainer.append(infoContainer, contactBtn, portraitImg);
 
     return heroContainer;

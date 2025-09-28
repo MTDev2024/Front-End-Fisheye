@@ -62,10 +62,10 @@ header {
   margin: 0;
 }
 
-a:focus {
+/* a:focus {
   outline: 2px solid #901c1c;
   outline-offset: 2px;
-}
+} */
 
 .photographer-portrait {
   width: 200px;

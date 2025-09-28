@@ -192,7 +192,7 @@ function setupLightbox() {
   function closeLightbox() {
     lightbox.classList.remove('show');
     lightbox.setAttribute('aria-hidden', 'true');
-    content.innerHTML = ''; // Vidage contenu
+    content.innerHTML = ''; // vidage contenu
   }
 
   // Navigation boutons (clic souris + clavier)
@@ -278,7 +278,7 @@ function setupDropdown() {
         break;
     }
 
-    // Réafficher la galerie avec le nouvel ordre
+    // Réafficher galerie avec le nouvel ordre
     gallery.innerHTML = '';
     medias.forEach((m) => {
       const article = mediaFactory(m, photographerData.folder);
@@ -290,7 +290,7 @@ function setupDropdown() {
       gallery.appendChild(article);
     });
 
-    // Mettre à jour le bouton avec le texte + flèche
+    // Maj bouton (texte + icone)
     button.textContent = selectedText;
     if (icon) button.appendChild(icon);
 
