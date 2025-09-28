@@ -1,11 +1,11 @@
 # FishEye - Prototype Frontend
 
-![Logo FishEye](assets/logo.png)
+![Logo FishEye](assets/images/logo.png)
 
 ## 📖 Contexte
 
 FishEye est un site web qui permet aux photographes indépendants de présenter leurs meilleurs travaux.  
-Ce projet est réalisé dans le cadre de ma formation de développeur front-end (OpenClassrooms).  
+Ce projet est réalisé dans le cadre de ma formation de développeur front-end.  
 L’objectif : intégrer un prototype complet à partir de maquettes fournies, en respectant les bonnes pratiques d’**accessibilité** et en utilisant du **JavaScript orienté objet**.
 
 ---
@@ -52,10 +52,10 @@ bash
 Copier le code
 git clone https://github.com/TON-USERNAME/FishEye.git
 Ouvrir le fichier index.html directement dans le navigateur.
-(aucun serveur nécessaire — projet purement front-end)
+
 
 ♿ Accessibilité
-Navigation au clavier complète (Tab, Entrée, ESC, flèches).
+Navigation au clavier (Tab, Entrée, ESC, flèches).
 
 Lightbox avec focus trap et fermeture clavier.
 
@@ -68,13 +68,8 @@ Tri dynamique (popularité, date, titre)
 
 Lightbox pour parcourir les médias
 
-Formulaire de contact accessible et validé
-
 Compteur de likes mis à jour dynamiquement
 
-🙋 Auteur
-Projet réalisé par [Ton Nom]
-Dans le cadre de la formation Développeur d’application – JavaScript React (OpenClassrooms).
 
 ---
 
@@ -82,4 +77,4 @@ Dans le cadre de la formation Développeur d’application – JavaScript React 
 
 
 
-   ```bash
+   ```
