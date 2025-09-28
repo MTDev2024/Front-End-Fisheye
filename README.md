@@ -2,6 +2,16 @@
 
 ![Logo FishEye](assets/images/logo.png)
 
+
+
+## 🏷️ Badges
+
+![HTML5](https://img.shields.io/badge/Code-HTML5-orange?logo=html5)
+![CSS3](https://img.shields.io/badge/Style-CSS3-blue?logo=css3)
+![JavaScript](https://img.shields.io/badge/Script-JavaScript-yellow?logo=javascript)
+![Accessibility](https://img.shields.io/badge/Focus-Accessibility-green?logo=universal-access)
+
+
 ## 📖 Contexte
 
 FishEye est un site web qui permet aux photographes indépendants de présenter leurs meilleurs travaux.  
@@ -9,6 +19,12 @@ Ce projet est réalisé dans le cadre de ma formation de développeur front-end.
 L’objectif : intégrer un prototype complet à partir de maquettes fournies, en respectant les bonnes pratiques d’**accessibilité** et en utilisant du **JavaScript orienté objet**.
 
 ---
+
+## 🖼️ Capture d’écran
+
+Page d’accueil (version desktop) :  
+![Capture d’écran FishEye](assets/screenshot-homepage.png)
+
 
 ## 🎯 Objectifs du projet
 
@@ -34,22 +50,39 @@ L’objectif : intégrer un prototype complet à partir de maquettes fournies, e
 ## 📂 Structure du projet
 
 ```bash
-├── index.html              # Page d’accueil
-├── photographer.html        # Page photographe
-├── /css                     # Styles modulaires
-├── /js                      # Modules JavaScript
-│   ├── factories            # Factory Method pour médias
-│   ├── models               # Classes (Media, Photographer)
-│   ├── utils                # Accessibilité, focus trap
-│   └── main.js              # Point d’entrée
-├── /assets                  # Images, logo
-├── /data                    # Fichier photographers.json
+├── index.html
+├── photographer.html
+├── .eslintrc.js             # Configuration ESLint
+├── .prettierrc.json         # Configuration Prettier
+│
+├── /assets                  # Images, logos, captures d’écran
+│
+├── /css
+│   ├── style.css            # Styles généraux
+│   └── photographer.css     # Styles spécifiques page photographe
+│
+├── /data
+│   └── photographers.json   # Données JSON des photographes et médias
+│
+├── /js
+│   ├── factories
+│   │   └── mediaFactory.js  # Factory Method pour gérer photos/vidéos
+│   │
+│   ├── pages
+│   │   ├── index.js         # Logique page d’accueil
+│   │   └── photographer.js  # Logique page photographe
+│   │
+│   ├── template
+│   │   └── photographer.js  # Template DOM pour afficher un photographe
+│   │
+│   └── utils
+│       ├── api.js           # Gestion récupération données JSON
+│       └── contactForm.js   # Gestion et validation du formulaire
+│
 └── README.md
+
 🚀 Lancer le projet
 Cloner le repo :
-
-bash
-Copier le code
 git clone https://github.com/TON-USERNAME/FishEye.git
 Ouvrir le fichier index.html directement dans le navigateur.
 
