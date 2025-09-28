@@ -21,8 +21,7 @@ L’objectif : intégrer un prototype complet à partir de maquettes fournies, e
 ---
 
 ## 🖼️ Capture d’écran
-
-Page d’accueil (version desktop) :  
+ 
 ![Capture d’écran FishEye](assets/screenshot-homepage.png)
 
 
