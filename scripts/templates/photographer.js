@@ -67,12 +67,15 @@ export function photographerTemplate(data) {
     const contactBtn = document.createElement('button');
     contactBtn.textContent = 'Contactez-moi';
     contactBtn.classList.add('contact_button');
-    contactBtn.setAttribute('aria-label', `Contacter ${name}`);
+    contactBtn.setAttribute(
+      'aria-label',
+      `Ouvrir le formulaire de contact pour ${name}`,
+    );
 
     // Portrait
     const portraitImg = document.createElement('img');
     portraitImg.src = picture;
-    portraitImg.alt = name;
+    portraitImg.alt = `Portrait de ${name}`;
     portraitImg.classList.add('photograph-portrait');
 
     // Ordre : infos → bouton → portrait
