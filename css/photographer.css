@@ -1,49 +1,4 @@
-/* Si un enfant de .media-item focus -> afficher outline sur le conteneur */
-.media-item:has(img:focus),
-.media-item:has(video:focus) {
-  outline: 4px solid #db8876;
-  /* outline-offset: 2px; */
-  border-radius: 8px;
-}
-
-.media-item:has(img:hover),
-.media-item:has(video:hover) {
-  outline: 4px solid #db8876;
-  /* outline-offset: 2px; */
-  border-radius: 8px;
-}
-
-/* Focus bouton like */
-.like-button:focus {
-  outline: 4px solid #db8876;
-  /* outline-offset: 2px; */
-  border-radius: 5px;
-}
-
-.like-button:hover {
-  outline: 4px solid #db8876;
-  border-radius: 5px;
-}
-
-/* Harmoniser focus sur boutons & liens */
-button:focus,
-a:focus {
-  outline: 2px solid #db8876;
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-.media-container img,
-.media-container video {
-  cursor: pointer;
-}
-
-.media-item:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px #db8876;
-  border-radius: 8px;
-}
-
+/* -- MODALE -- */
 #contact_modal {
   position: fixed;
   top: 0;
@@ -63,9 +18,192 @@ a:focus {
   display: flex;
 }
 
+.modal {
+  border-radius: 5px;
+  background-color: #db8876;
+  width: 670px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 35px;
+  margin: auto;
+  z-index: 1001;
+}
+
+.modal header {
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 20px;
+}
+
+.modal header img {
+  cursor: pointer;
+}
+
+.modal header h2 {
+  font-size: 64px;
+  font-weight: normal;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-top: 50px;
+}
+
+form label {
+  color: #312e2e;
+  font-size: 36px;
+  text-align: left;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+/* Inputs et textarea */
+form input,
+form textarea {
+  width: 100%;
+  height: 68px;
+  border: 1px solid transparent; /* supprime la bordure native noire */
+  border-radius: 5px;
+  font-size: 18px;
+  align-items: center;
+  transition:
+    outline 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+form input:focus,
+form input:hover,
+form textarea:focus,
+form textarea:hover {
+  outline: 2px solid #901c1c;
+  outline-offset: 2px;
+  background-color: #fff;
+}
+
+/* Boutons */
+.contact_button,
+#contact_form_submit {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background-color: #901c1c;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 11px;
+  width: 170px;
+  height: 70px;
+  transition:
+    background-color 0.2s ease,
+    outline 0.2s ease;
+}
+
+.contact_button:hover {
+  background-color: #db8876;
+}
+
+#contact_form_submit:hover {
+  background-color: #db8876;
+  border: solid 2px #901c1c;
+}
+
+.contact_button:focus,
+#contact_form_submit:focus {
+  outline: 2px solid #901c1c;
+  outline-offset: 2px;
+  background-color: #db8876;
+}
+
+#contact_form_submit {
+  align-self: flex-start;
+}
+
 .modal-close {
   background-color: transparent;
   border: none;
+  cursor: pointer;
+  transition: outline 0.2s ease;
+}
+
+.modal-close:focus,
+.modal-close:hover {
+  outline: 2px solid #901c1c;
+  outline-offset: 2px;
+}
+
+/* Messages d'erreur / succès */
+.form-error {
+  color: #e54858;
+  font-size: 1rem;
+  padding-top: 0.5rem;
+  transition: opacity 0.3s ease;
+  margin: 0;
+}
+
+.form-success {
+  color: #205d12;
+  font-size: 1rem;
+  padding-top: 0.5rem;
+  transition: opacity 0.3s ease;
+  margin-top: 0.6rem;
+  text-align: center;
+}
+
+.form-success:empty,
+.form-error:empty {
+  display: none;
+  opacity: 0;
+}
+
+.form-error,
+#valid-message {
+  min-height: 0;
+  padding-top: 0.25rem;
+  font-size: 16px;
+}
+
+/* FIN MODALE */
+
+/* Focus bouton like */
+.like-button:focus {
+  outline: 4px solid #db8876;
+  border-radius: 5px;
+}
+
+.like-button:hover {
+  outline: 4px solid #db8876;
+  border-radius: 5px;
+}
+
+button:focus,
+a:focus {
+  outline: 2px solid #db8876;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.media-container img,
+.media-container video {
+  cursor: pointer;
+}
+
+.media-item:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px #db8876;
+  border-radius: 8px;
 }
 
 #logo-2 {
@@ -136,124 +274,6 @@ a:focus {
   font-size: 18px;
 }
 
-.modal {
-  border-radius: 5px;
-  background-color: #db8876;
-  width: 670px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 35px;
-  margin: auto;
-  z-index: 1001;
-}
-
-.modal header {
-  justify-content: space-between;
-  width: 100%;
-  padding-top: 20px;
-}
-
-.modal header img {
-  cursor: pointer;
-}
-
-.modal header h2 {
-  font-size: 64px;
-  font-weight: normal;
-  text-align: center;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding-top: 50px;
-}
-
-form label {
-  color: #312e2e;
-  font-size: 36px;
-  text-align: left;
-  margin-bottom: 8px;
-  width: 100%;
-}
-
-form div {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-form input {
-  width: 100%;
-  height: 68px;
-  border: none;
-  border-radius: 5px;
-  font-size: 18px;
-  align-items: center;
-}
-
-form textarea {
-  width: 100%;
-  border: none;
-  border-radius: 5px;
-  font-size: 18px;
-  resize: none;
-}
-
-.contact_button,
-#contact_form_submit {
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
-  background-color: #901c1c;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 11px;
-  width: 170px;
-  height: 70px;
-}
-
-#contact_form_submit {
-  align-self: flex-start;
-}
-
-.form-error {
-  color: #e54858;
-  font-size: 1rem;
-  padding-top: 0.5rem;
-  transition: opacity 0.3s ease;
-  margin: 0;
-}
-
-.form-success {
-  color: #205d12;
-  font-size: 1rem;
-  padding-top: 0.5rem;
-  transition: opacity 0.3s ease;
-  margin-top: 0.6rem;
-  text-align: center;
-}
-
-.form-success:empty,
-.form-error:empty {
-  display: none;
-  opacity: 0;
-}
-
-.form-error,
-#valid-message {
-  min-height: 0;
-  padding-top: 0.25rem;
-}
-
 /* GALERIE MEDIA PHOTOGRAPHE */
 .Dropdown {
   display: flex;
@@ -299,6 +319,14 @@ form textarea {
 .dropbtn[aria-expanded='true'] img {
   transform: rotate(180deg);
   transition: transform 0.2s ease;
+}
+
+.dropbtn:hover {
+  background-color: #db8876;
+}
+
+.dropbtn:focus {
+  background-color: #db8876;
 }
 
 /* cachée par défaut */
@@ -465,6 +493,19 @@ form textarea {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* Si un enfant de .media-item focus -> afficher outline sur le conteneur */
+.media-item:has(img:focus),
+.media-item:has(video:focus) {
+  outline: 4px solid #db8876;
+  border-radius: 8px;
+}
+
+.media-item:has(img:hover),
+.media-item:has(video:hover) {
+  outline: 4px solid #db8876;
+  border-radius: 8px;
 }
 
 /* LIGHTBOX */

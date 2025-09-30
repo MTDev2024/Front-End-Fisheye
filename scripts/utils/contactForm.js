@@ -1,13 +1,13 @@
 // ---------------------- MODALE ET FORMULAIRE ----------------------
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('contactForm.js chargé !'); // Debug : script chargé
+  // console.log('contactForm.js chargé'); // Debug : script chargé
 
   // ---------------------- MODALE ----------------------
   const modal = document.getElementById('contact_modal');
   const closeBtn = modal ? modal.querySelector('.modal-close') : null;
 
-  console.log('modal :', modal); // Debug : modale trouvée ?
-  console.log('closeBtn :', closeBtn); // Debug : bouton fermer trouvé ?
+  // console.log('modal :', modal); // Debug : modale trouvée ?
+  // console.log('closeBtn :', closeBtn); // Debug : bouton fermer trouvé ?
 
   // ---------------------- MODALE ----------------------
 
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Rattacher events sur les boutons dynamiques
   function bindOpenButtons() {
     const openBtns = document.querySelectorAll('.contact_button');
-    console.log('openBtns :', openBtns.length, 'bouton(s) trouvé(s)');
+    // console.log('openBtns :', openBtns.length, 'bouton(s) trouvé(s)');
 
     openBtns.forEach((btn) => {
       btn.removeEventListener('click', openModal); // évite doublons
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ---------------------- FORMULAIRE ----------------------
   const form = document.getElementById('form');
-  console.log('form :', form); // Debug : formulaire trouvé ?
+  // console.log('form :', form); // Debug : formulaire trouvé ?
 
   // Vérifie prénom
   function validateFirstname() {
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', (event) => {
     event.preventDefault(); // empêche reload
     const formIsValid = validate();
-    console.log('Formulaire valide ?', formIsValid); // Debug
+    // console.log('Formulaire valide ?', formIsValid); // Debug
 
     const validMessage = document.getElementById('valid-message');
 

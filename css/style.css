@@ -1,9 +1,5 @@
 @import url('photographer.css');
 
-/* * {
-  outline: 1px solid red;
-} */
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -22,6 +18,14 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
+}
+
+.photographer-card a:hover {
+  outline: solid 2px #901c1c;
+  box-shadow: 0 4px 12px rgba(144, 28, 28, 0.4);
+  transition:
+    box-shadow 0.3s ease,
+    outline 0.3s ease;
 }
 
 body {
@@ -61,11 +65,6 @@ header {
   flex-direction: column;
   margin: 0;
 }
-
-/* a:focus {
-  outline: 2px solid #901c1c;
-  outline-offset: 2px;
-} */
 
 .photographer-portrait {
   width: 200px;
