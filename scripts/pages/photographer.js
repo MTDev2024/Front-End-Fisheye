@@ -14,12 +14,12 @@ let currentIndex = 0; // Index média affiché dans la lightbox
 
 // --- Initialisation ---
 async function init() {
-  // 1. Charger données JSON
+  // 1. Chargement données JSON
   const data = await getData();
   const { photographers } = data;
   allMedia = data.media;
 
-  // 2. Récupérer ID photographe dans URL
+  // 2. Récupération ID photographe dans URL
   const params = new URLSearchParams(window.location.search);
   const id = parseInt(params.get('id'), 10);
 
@@ -27,7 +27,7 @@ async function init() {
   photographerData = photographers.find((p) => p.id === id);
   if (!photographerData) return console.error('Photographe introuvable');
 
-  // 4. Appeler chaque setup (certaines fonctions n’ont pas besoin de paramètres)
+  // 4. Appel  chaque setup (certaines fonctions n’ont pas besoin de paramètres)
   setupHeader(); // pas besoin de paramètre : utilise photographerData globale
   setupGallery(); // idem
   setupLikesAndPrice(); // idem
@@ -261,20 +261,23 @@ function setupDropdown() {
     });
   });
 
-  // Applique le tri selon l’option choisie
+  // Applique tri selon option
   function selectOption(option) {
     const selectedText = option.innerText;
+    // Switch permet de comparer UNE variable à plusieurs valeurs possibles (case).
     switch (selectedText) {
       case 'Date':
+        // Date : date texte -> Objet Date utilisable pour comparaison chronologique
         medias.sort((a, b) => new Date(b.date) - new Date(a.date));
         break;
       case 'Popularité':
         medias.sort((a, b) => b.likes - a.likes);
         break;
       case 'Titre':
+        // localeCompare compare 2 strings en tenant compte de la langue (locale), des accents, majuscules/minuscules, etc.
         medias.sort((a, b) => a.title.localeCompare(b.title));
         break;
-      default:
+      default: // Si aucune option -> Stop
         break;
     }
 
@@ -283,7 +286,7 @@ function setupDropdown() {
     medias.forEach((m) => {
       const article = mediaFactory(m, photographerData.folder);
       article.addEventListener('openLightbox', (e) => {
-        const mediaId = e.detail;
+        const mediaId = e.detail; // ID média récupéré à partir des détails de l'événement
         const index = medias.findIndex((m) => m.id == mediaId);
         window.showLightbox(index);
       });

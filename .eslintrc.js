@@ -31,7 +31,7 @@ module.exports = {
     // "indent": ["error", 2], // commentée car Prettier gère l'indentation
     'prettier/prettier': ['error', { tabWidth: 2, useTabs: false }], // règles Prettier
     'linebreak-style': ['error', 'unix'], // LF uniquement
-    'default-case': 'error', // les switch doivent avoir un default
+    'default-case': 'error', // les switch doivent gérer 'default'
     'import/prefer-default-export': 'off', // autorise exports nommés même uniques
     'import/extensions': 'off',
   },

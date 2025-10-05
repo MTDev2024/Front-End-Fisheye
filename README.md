@@ -82,7 +82,7 @@ L’objectif : intégrer un prototype complet à partir de maquettes fournies, e
 
 🚀 Lancer le projet
 Cloner le repo :
-git clone https://github.com/TON-USERNAME/FishEye.git
+git clone https://github.com/MTDev2024/FishEye.git
 Ouvrir le fichier index.html directement dans le navigateur.
 
 
